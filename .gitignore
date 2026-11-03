@@ -1,0 +1,14 @@
+# Layerum_plan.md
+.DS_Store
+# SDK local artifacts
+sdk/rag-sdk/.npm-cache/
+sdk/rag-sdk/dist/
+sdk/rag-sdk/node_modules
+
+# CLI local artifacts
+cli/dist/
+cli/node_modules
+
+.env
+# Local Docker overrides
+docker/docker-compose.override.yml

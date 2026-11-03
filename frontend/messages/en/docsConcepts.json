@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "Docs",
+    "current": "Concepts"
+  },
+  "hero": {
+    "title": "Platform Concepts",
+    "description": "Layerum is built for production RAG: structured workspaces, secure API-key access, reliable ingestion, and predictable capacity control from upload to query."
+  },
+  "sidebar": {
+    "title": "On this page",
+    "ariaLabel": "Concept sections",
+    "links": [
+      { "href": "#what-layerum-is", "label": "What Layerum Is" },
+      { "href": "#workspace-model", "label": "Workspace Model" },
+      { "href": "#data-model", "label": "Data Model" },
+      { "href": "#ingestion-lifecycle", "label": "Ingestion Lifecycle" },
+      { "href": "#capacity-control", "label": "Capacity Control" },
+      { "href": "#security-governance", "label": "Security and Governance" },
+      { "href": "#retrieval-quality", "label": "Retrieval Quality" },
+      { "href": "#developer-experience", "label": "Developer Experience" },
+      { "href": "#operations", "label": "Operations and Reliability" },
+      { "href": "#use-cases", "label": "Typical Use Cases" },
+      { "href": "#start", "label": "How to Start" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "What Layerum Is",
+      "paragraph": "Layerum is a hosted RAG platform for teams that need to ingest knowledge, control access by workspace, and serve reliable answers through API or SDK.",
+      "bullets": [
+        "API endpoint: {apiBaseUrl}.",
+        "Public integration contract: /v1/*.",
+        "Authentication: workspace API keys (lyr_wk_...)."
+      ]
+    },
+    "workspaceModel": {
+      "title": "Workspace Model",
+      "paragraph": "Every team works in isolated workspaces. Permissions, models, entities, documents, and API keys are controlled at workspace scope.",
+      "bullets": [
+        "Multiple workspaces per account based on tier.",
+        "Team members, roles, and operational boundaries stay inside workspace.",
+        "API keys can be scoped by entities and model configs."
+      ]
+    },
+    "dataModel": {
+      "title": "Data Model",
+      "paragraph": "Knowledge is organized to support both governance and retrieval precision.",
+      "bullets": [
+        "Entity Types define high-level categories.",
+        "Entities form the hierarchy and retrieval scope.",
+        "Documents are attached to entities and indexed into chunks/vectors."
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "Ingestion Lifecycle",
+      "paragraph": "Documents pass through a predictable ingestion flow: upload, parse, chunk, embed, index, and status tracking.",
+      "bullets": [
+        "Small files: direct multipart upload through API.",
+        "Large files: presigned flow (upload/init → S3 POST → upload/complete).",
+        "Ingestion statuses: pending, processing, completed, failed.",
+        "SDK helper ingestion.waitUntilReady handles polling for completion."
+      ]
+    },
+    "capacityControl": {
+      "title": "Capacity Control",
+      "paragraph": "Capacity is account-level by plan and can be distributed across workspaces dynamically. Enforcement is server-side for UI, API, and SDK flows.",
+      "bullets": [
+        "Counted usage: entities, documents bytes, chunks, linked S3 files, pending upload reservations.",
+        "Not counted: audit/access logs, API key metadata, model/provider metadata.",
+        "Presigned uploads are hardened: reservation at upload/init, size/object validation at upload/complete, stale session cleanup."
+      ]
+    },
+    "securityGovernance": {
+      "title": "Security and Governance",
+      "paragraph": "Access is explicit, scoped, and revocable at any time.",
+      "bullets": [
+        "API keys are created and managed only in Layerum platform UI.",
+        "Capability model: query:read, data:ingest, and config:manage.",
+        "Per-key controls: entity scope, model scope, requests-per-minute, daily token limit, expiration.",
+        "Rotate and revoke are instant controls without changing integration architecture."
+      ]
+    },
+    "retrievalQuality": {
+      "title": "Retrieval Quality",
+      "paragraph": "Query behavior is designed for controllable and explainable answers, not just raw text generation.",
+      "bullets": [
+        "Entity-scoped retrieval keeps context relevant.",
+        "Top-K and parent-scope options tune retrieval breadth.",
+        "Citations help trace generated answers back to source chunks.",
+        "Debug query endpoint supports deeper troubleshooting when needed."
+      ]
+    },
+    "developerExperience": {
+      "title": "Developer Experience",
+      "paragraph": "You can integrate with either typed SDK or plain HTTP while keeping the same public contract.",
+      "bullets": [
+        "SDK package: @layerum-team/rag-sdk.",
+        "Public API base: {apiBaseUrl}/v1.",
+        "Same auth and limits model for SDK and direct API clients."
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: 'Summarize key risks and actions'\n});"
+    },
+    "operations": {
+      "title": "Operations and Reliability",
+      "paragraph": "The platform focuses on stable production behavior and observable failures.",
+      "bullets": [
+        "Ingestion errors are persisted and available via API and SDK.",
+        "Retry endpoints support deterministic recovery flows.",
+        "Vector indexing is tied to document lifecycle for cleanup consistency.",
+        "Capacity checks reduce risk of runaway storage growth."
+      ]
+    },
+    "useCases": {
+      "title": "Typical Use Cases",
+      "bullets": [
+        "Customer support knowledge assistants for internal teams.",
+        "Private documentation search across departments.",
+        "Compliance and policy retrieval with citations.",
+        "Team-scoped copilots connected to selected knowledge domains."
+      ]
+    },
+    "start": {
+      "title": "How to Start",
+      "bullets": [
+        "1. Create a workspace and configure model connections.",
+        "2. Create API key in workspace UI and grant capabilities/scopes.",
+        "3. Create entity structure and upload documents.",
+        "4. Wait for ingestion completion, then run queries via SDK or API."
+      ],
+      "paragraph": "Continue with full endpoint and method details in Reference.",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}

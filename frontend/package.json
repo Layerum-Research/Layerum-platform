@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Elastic-2.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test:csp": "node --test ./scripts/csp-regression.test.js ./scripts/license-sync.test.js"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@supabase/supabase-js": "^2.57.4",
+    "@tanstack/react-query": "^5.90.6",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.547.0",
+    "motion": "^13.4.0",
+    "next": "^16.4.2",
+    "next-intl": "^4.9.1",
+    "qrcode.react": "^4.2.0",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "react-hook-form": "^7.62.0",
+    "recharts": "^3.2.1",
+    "sonner": "^2.0.7",
+    "zod": "^4.1.11",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "^16.4.2",
+    "typescript": "^5"
+  }
+}

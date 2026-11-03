@@ -1,0 +1,386 @@
+name: layerum
+
+x-backend: &backend
+  build:
+    context: ../backend
+  image: layerum-backend:local
+  restart: unless-stopped
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+    redis:
+      condition: service_healthy
+    qdrant:
+      condition: service_started
+      required: false
+    storage-bucket:
+      condition: service_completed_successfully
+      required: false
+  environment: &backend-env
+    NODE_ENV: production
+    PORT: "4000"
+    SUPABASE_URL: ${SUPABASE_INTERNAL_URL:-http://supabase-gateway:8000}
+    SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+    SUPABASE_ANON_KEY: ${ANON_KEY}
+    SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+    SUPABASE_JWT_SECRET: ${JWT_SECRET}
+    ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+    API_KEY_HASH_SECRET: ${API_KEY_HASH_SECRET}
+    FRONTEND_URL: ${APP_PUBLIC_URL}
+    FRONTEND_ALLOWED_ORIGINS: ${APP_PUBLIC_URL}
+    REDIS_URL: redis://redis:6379
+    ASYNC_TASKS_MODE: queue
+    VECTOR_STORE: ${VECTOR_STORE:-qdrant}
+    QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+    QDRANT_API_KEY: ${QDRANT_API_KEY}
+    LANCEDB_URI: ${LANCEDB_URI:-/data/lancedb}
+    DATABASE_URL: postgres://${DB_ADMIN_USER:-supabase_admin}:${DB_ADMIN_PASSWORD:-${POSTGRES_PASSWORD}}@${DB_HOST:-supabase-db}:${DB_PORT:-5432}/${DB_NAME:-postgres}?sslmode=${DB_SSLMODE:-disable}
+    S3_BUCKET: ${S3_BUCKET:-layerum-sources}
+    S3_REGION: ${S3_REGION:-us-east-1}
+    S3_ENDPOINT: ${S3_ENDPOINT-http://storage-s3:9000}
+    S3_PUBLIC_ENDPOINT: ${S3_PUBLIC_URL}
+    S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-true}
+    S3_SERVER_SIDE_ENCRYPTION: ${S3_SERVER_SIDE_ENCRYPTION:-none}
+    AWS_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
+    EMAIL_PROVIDER: ${EMAIL_PROVIDER:-smtp}
+    EMAIL_FROM: ${EMAIL_FROM}
+    SMTP_HOST: ${SMTP_HOST}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_SECURE: ${SMTP_SECURE:-}
+    SMTP_USER: ${SMTP_USER:-}
+    SMTP_PASS: ${SMTP_PASS:-}
+    RESEND_API_KEY: ${RESEND_API_KEY:-}
+    CONTACT_REQUESTS_EMAIL: ${ADMIN_EMAIL}
+    FEEDBACK_EMAIL: ${ADMIN_EMAIL}
+    RATE_LIMIT_ENABLED: "false"
+    PROVIDER_ALLOWED_PRIVATE_HOSTS: ${PROVIDER_ALLOWED_PRIVATE_HOSTS:-}
+  volumes:
+    - lancedb-data:/data/lancedb
+
+services:
+  # ---------------------------------------------------------------- app
+
+  web:
+    build:
+      context: ../frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${API_PUBLIC_URL}
+        NEXT_PUBLIC_SUPABASE_URL: ${SUPABASE_PUBLIC_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${ANON_KEY}
+        NEXT_PUBLIC_SITE_URL: ${APP_PUBLIC_URL}
+        CSP_CONNECT_SRC_EXTRA: ${S3_PUBLIC_URL}
+    image: layerum-web:local
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "${APP_BIND:-127.0.0.1}:${APP_PORT:-3000}:3000"
+
+  api:
+    <<: *backend
+    ports:
+      - "${API_BIND:-127.0.0.1}:${API_PORT:-4000}:4000"
+
+  worker:
+    <<: *backend
+    command: ["node", "dist/worker.js"]
+    stop_grace_period: 60s
+
+  migrate:
+    image: postgres:17-alpine
+    restart: "no"
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+        required: false
+      supabase-auth:
+        condition: service_healthy
+        required: false
+      supabase-storage:
+        condition: service_healthy
+        required: false
+    environment:
+      DATABASE_URL: postgres://${DB_ADMIN_USER:-supabase_admin}:${DB_ADMIN_PASSWORD:-${POSTGRES_PASSWORD}}@${DB_HOST:-supabase-db}:${DB_PORT:-5432}/${DB_NAME:-postgres}?sslmode=${DB_SSLMODE:-disable}
+      PGOPTIONS: -c client_min_messages=warning
+      WORKSPACE_LIMIT: ${WORKSPACE_LIMIT:-1000}
+      STORAGE_CAPACITY_GB: ${STORAGE_CAPACITY_GB:-1000000}
+    volumes:
+      - ../supabase/migrations:/migrations:ro
+      - ./migrate.sh:/migrate.sh:ro
+    entrypoint: ["/bin/sh", "/migrate.sh"]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  qdrant:
+    profiles: ["qdrant"]
+    image: qdrant/qdrant:v1.15.5
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY}
+    volumes:
+      - qdrant-data:/qdrant/storage
+
+  # ------------------------------------------- file storage (profile: s3)
+
+  storage-s3:
+    profiles: ["s3"]
+    image: cgr.dev/chainguard/minio:latest
+    restart: unless-stopped
+    command: ["server", "/data"]
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY}
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    ports:
+      - "${S3_BIND:-127.0.0.1}:${S3_PORT:-9000}:9000"
+    volumes:
+      - s3-data:/data
+
+  storage-bucket:
+    profiles: ["s3"]
+    image: cgr.dev/chainguard/minio-client:latest-dev
+    restart: "no"
+    depends_on:
+      storage-s3:
+        condition: service_healthy
+    environment:
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
+      S3_BUCKET: ${S3_BUCKET:-layerum-sources}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        mc alias set local http://storage-s3:9000 "$$S3_ACCESS_KEY_ID" "$$S3_SECRET_ACCESS_KEY"
+        mc mb --ignore-existing "local/$$S3_BUCKET"
+
+  # --------------------------------------------- database (profile: postgres)
+
+  supabase-db:
+    profiles: ["postgres"]
+    image: supabase/postgres:17.6.1.136
+    restart: unless-stopped
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf", "-c", "log_min_messages=fatal"]
+    environment:
+      POSTGRES_HOST: /var/run/postgresql
+      PGPORT: "5432"
+      POSTGRES_PORT: "5432"
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: postgres
+      POSTGRES_DB: postgres
+      JWT_EXP: ${JWT_EXPIRY:-3600}
+    volumes:
+      - ./supabase/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:ro
+      - ./supabase/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:ro
+      - ./supabase/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:ro
+      - db-data:/var/lib/postgresql/data
+      - db-config:/etc/postgresql-custom
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # ------------------------- auth, REST, realtime, storage (profile: supabase)
+
+  db-init:
+    profiles: ["supabase"]
+    image: postgres:17-alpine
+    restart: "no"
+    depends_on:
+      supabase-db:
+        condition: service_healthy
+        required: false
+    environment:
+      PGHOST: ${DB_HOST:-supabase-db}
+      PGPORT: ${DB_PORT:-5432}
+      PGDATABASE: ${DB_NAME:-postgres}
+      PGUSER: ${DB_ADMIN_USER:-supabase_admin}
+      PGPASSWORD: ${DB_ADMIN_PASSWORD:-${POSTGRES_PASSWORD}}
+      PGSSLMODE: ${DB_SSLMODE:-disable}
+      SERVICE_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres/init.sql:/init.sql:ro
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        if [ "$$(psql -tAc "SELECT 1 FROM pg_roles WHERE rolname = 'supabase_admin' AND rolcanlogin")" = "1" ]; then
+          echo "Supabase database detected, nothing to prepare"
+          exit 0
+        fi
+        psql -q -v service_password="$$SERVICE_PASSWORD" -f /init.sql
+        echo "Database prepared"
+
+  supabase-auth:
+    profiles: ["supabase"]
+    image: supabase/gotrue:v2.196.0
+    restart: unless-stopped
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9999/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: "9999"
+      API_EXTERNAL_URL: ${SUPABASE_PUBLIC_URL}/auth/v1
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@${DB_HOST:-supabase-db}:${DB_PORT:-5432}/${DB_NAME:-postgres}?sslmode=${DB_SSLMODE:-disable}
+      GOTRUE_SITE_URL: ${APP_PUBLIC_URL}
+      GOTRUE_URI_ALLOW_LIST: ${APP_PUBLIC_URL}/**
+      GOTRUE_CORS_ALLOWED_HEADERS: apikey
+      GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP:-false}
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: ${JWT_EXPIRY:-3600}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_ISSUER: ${SUPABASE_PUBLIC_URL}/auth/v1
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: "false"
+      GOTRUE_MAILER_AUTOCONFIRM: "false"
+      GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
+      GOTRUE_MFA_TOTP_ENROLL_ENABLED: "true"
+      GOTRUE_MFA_TOTP_VERIFY_ENABLED: "true"
+      GOTRUE_SMTP_ADMIN_EMAIL: ${EMAIL_FROM}
+      GOTRUE_SMTP_HOST: ${SMTP_HOST}
+      GOTRUE_SMTP_PORT: ${SMTP_PORT:-587}
+      GOTRUE_SMTP_USER: ${SMTP_USER:-}
+      GOTRUE_SMTP_PASS: ${SMTP_PASS:-}
+      GOTRUE_SMTP_SENDER_NAME: Layerum
+      GOTRUE_EXTERNAL_GOOGLE_ENABLED: ${GOOGLE_ENABLED:-false}
+      GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOTRUE_EXTERNAL_GOOGLE_SECRET: ${GOOGLE_SECRET:-}
+      GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI: ${SUPABASE_PUBLIC_URL}/auth/v1/callback
+      GOTRUE_EXTERNAL_GITHUB_ENABLED: ${GITHUB_ENABLED:-false}
+      GOTRUE_EXTERNAL_GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GOTRUE_EXTERNAL_GITHUB_SECRET: ${GITHUB_SECRET:-}
+      GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI: ${SUPABASE_PUBLIC_URL}/auth/v1/callback
+
+  supabase-rest:
+    profiles: ["supabase"]
+    image: postgrest/postgrest:v14.17
+    restart: unless-stopped
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@${DB_HOST:-supabase-db}:${DB_PORT:-5432}/${DB_NAME:-postgres}?sslmode=${DB_SSLMODE:-disable}
+      PGRST_DB_SCHEMAS: public,storage
+      PGRST_DB_MAX_ROWS: "1000"
+      PGRST_DB_EXTRA_SEARCH_PATH: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+      PGRST_APP_SETTINGS_JWT_EXP: ${JWT_EXPIRY:-3600}
+
+  supabase-realtime:
+    profiles: ["supabase"]
+    image: supabase/realtime:v2.134.10
+    restart: unless-stopped
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      PORT: "4000"
+      DB_HOST: ${DB_HOST:-supabase-db}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_ADMIN_USER:-supabase_admin}
+      DB_PASSWORD: ${DB_ADMIN_PASSWORD:-${POSTGRES_PASSWORD}}
+      DB_NAME: ${DB_NAME:-postgres}
+      DB_AFTER_CONNECT_QUERY: SET search_path TO _realtime
+      DB_ENC_KEY: supabaserealtime
+      API_JWT_SECRET: ${JWT_SECRET}
+      SECRET_KEY_BASE: ${REALTIME_SECRET_KEY_BASE}
+      METRICS_JWT_SECRET: ${JWT_SECRET}
+      ERL_AFLAGS: -proto_dist inet_tcp
+      DNS_NODES: "''"
+      RLIMIT_NOFILE: "10000"
+      APP_NAME: realtime
+      SEED_SELF_HOST: "true"
+      RUN_JANITOR: "true"
+      DISABLE_HEALTHCHECK_LOGGING: "true"
+
+  supabase-storage:
+    profiles: ["supabase"]
+    image: supabase/storage-api:v1.74.0
+    restart: unless-stopped
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+      supabase-rest:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:5000/status"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    environment:
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      POSTGREST_URL: http://supabase-rest:3000
+      AUTH_JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgres://supabase_storage_admin:${POSTGRES_PASSWORD}@${DB_HOST:-supabase-db}:${DB_PORT:-5432}/${DB_NAME:-postgres}?sslmode=${DB_SSLMODE:-disable}
+      STORAGE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      REQUEST_ALLOW_X_FORWARDED_PATH: "true"
+      FILE_SIZE_LIMIT: "52428800"
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      GLOBAL_S3_BUCKET: stub
+      TENANT_ID: stub
+      REGION: stub
+      ENABLE_IMAGE_TRANSFORMATION: "false"
+    volumes:
+      - supabase-storage-data:/var/lib/storage
+
+  supabase-gateway:
+    profiles: ["supabase"]
+    image: nginx:1.29-alpine
+    restart: unless-stopped
+    depends_on:
+      supabase-auth:
+        condition: service_healthy
+      supabase-rest:
+        condition: service_started
+      supabase-realtime:
+        condition: service_started
+      supabase-storage:
+        condition: service_healthy
+    environment:
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      NGINX_ENVSUBST_FILTER: "^(ANON_KEY|SERVICE_ROLE_KEY)$$"
+    volumes:
+      - ./supabase/gateway.conf.template:/etc/nginx/templates/default.conf.template:ro
+    ports:
+      - "${SUPABASE_BIND:-127.0.0.1}:${SUPABASE_PORT:-8000}:8000"
+
+volumes:
+  db-data:
+  db-config:
+  supabase-storage-data:
+  redis-data:
+  qdrant-data:
+  lancedb-data:
+  s3-data:

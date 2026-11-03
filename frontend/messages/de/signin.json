@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "signin": "Anmelden",
+    "signup": "Registrieren"
+  },
+  "hero": {
+    "title": "Willkommen zurück",
+    "description": "Setzen Sie Ihre Architekturreise fort."
+  },
+  "oauth": {
+    "github": "Mit GitHub fortfahren",
+    "google": "Mit Google fortfahren"
+  },
+  "divider": "Oder mit Zugangsdaten fortfahren",
+  "form": {
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "Vergessen?",
+    "forgotSend": "Reset-Link senden",
+    "forgotSending": "Wird gesendet...",
+    "forgotBack": "Zurück zur Anmeldung",
+    "forgotSuccess": "Überprüfen Sie Ihr Postfach für einen Passwort-Reset-Link.",
+    "submit": "Sitzung authentifizieren",
+    "submitting": "Authentifizierung läuft..."
+  },
+  "states": {
+    "preparing": "Anmeldung wird vorbereitet...",
+    "redirecting": "Weiterleitung..."
+  },
+  "side": {
+    "scopedAccess": "Eingeschränkter Zugriff",
+    "scopedAccessDesc": "Workspace-API-Schlüssel unterstützen Fähigkeits- und Bereichskontrollen.",
+    "hostedApi": "Gehostete API",
+    "hostedApiDesc": "Integrieren Sie über die öffentliche /v1-API oder das offizielle SDK."
+  }
+}

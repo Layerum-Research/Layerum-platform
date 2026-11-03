@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Docs",
+    "breadcrumbActive": "Getting Started",
+    "title": "Quick Start Guide",
+    "description": "Start with API keys, then use the SDK or direct API calls. Open the reference page for complete method and query documentation."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "API Keys",
+      "desc": "Create, scope, rotate, and revoke workspace API keys for secure integrations."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Use @layerum-team/rag-sdk for entities, uploads, ingestion wait, and query workflows."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Explore public /v1 endpoints, capabilities, scopes, and request/response behavior."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Installation",
+      "desc": "Install the official SDK package from npm."
+    },
+    "client": {
+      "title": "Initialize the Client",
+      "desc": "Initialize LayerumClient with your workspace API key."
+    },
+    "mcpCli": {
+      "title": "MCP and CLI",
+      "desc": "Use Layerum from a terminal or an AI assistant. The CLI and MCP server sign in with your own Layerum account through OAuth, so they are for people and AI assistants. The SDK uses workspace API keys (lyr_wk_*) and is for server integrations.",
+      "install": {
+        "title": "Install",
+        "desc": "Install the CLI globally. Requires Node 20 or newer."
+      },
+      "signIn": {
+        "title": "Sign in",
+        "desc": "Set the URLs of your Layerum server, then sign in. layerum login opens your browser and signs you in with OAuth. On SSH or in a container, use layerum login --code: open the printed URL on any device, authorize, and paste the code."
+      },
+      "assistants": {
+        "title": "Connect an AI assistant",
+        "desc": "Register the MCP server with your assistant. The assistant signs in through its login tool the first time it needs Layerum. Claude Code:",
+        "othersDesc": "Other MCP clients: add this to the client's MCP configuration. It works with clients that accept the mcpServers format, such as Cursor and Claude Desktop."
+      },
+      "reference": "Open the full MCP and CLI reference"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Need a sandbox?",
+      "desc": "Try our interactive playground to test API calls in real-time without writing a single line of local code.",
+      "link": "Open Playground"
+    },
+    "concepts": {
+      "title": "Read the Concepts",
+      "desc": "Understand the underlying architecture of Layerum and how we handle high-density data vectors.",
+      "link": "Core Concepts"
+    }
+  }
+}

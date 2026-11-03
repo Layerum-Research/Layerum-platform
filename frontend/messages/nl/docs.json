@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Docs",
+    "breadcrumbActive": "Aan de slag",
+    "title": "Snelstartgids",
+    "description": "Begin met API-sleutels en gebruik daarna SDK of API."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "API-sleutels",
+      "desc": "Maak en beheer API-sleutels."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Gebruik SDK voor data en queries."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Verken /v1 endpoints."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Installatie",
+      "desc": "Installeer SDK via npm."
+    },
+    "client": {
+      "title": "Client initialiseren",
+      "desc": "Initialiseer LayerumClient met je API-sleutel."
+    },
+    "mcpCli": {
+      "title": "MCP en CLI",
+      "desc": "Gebruik Layerum vanuit een terminal of een AI-assistent. De CLI en de MCP-server melden zich via OAuth aan met je eigen Layerum-account en zijn bedoeld voor mensen en AI-assistenten. De SDK gebruikt workspace-API-sleutels (lyr_wk_*) en is bedoeld voor serverintegraties.",
+      "install": {
+        "title": "Installatie",
+        "desc": "Installeer de CLI globaal. Vereist Node 20 of nieuwer."
+      },
+      "signIn": {
+        "title": "Inloggen",
+        "desc": "Stel de URL's van je Layerum-server in en log daarna in. layerum login opent je browser en logt je in met OAuth. Gebruik via SSH of in een container layerum login --code: open de getoonde URL op een willekeurig apparaat, autoriseer en plak de code."
+      },
+      "assistants": {
+        "title": "Een AI-assistent verbinden",
+        "desc": "Registreer de MCP-server bij je assistent. De assistent logt in via zijn login-tool zodra hij Layerum voor het eerst nodig heeft. Claude Code:",
+        "othersDesc": "Andere MCP-clients: voeg dit toe aan de MCP-configuratie van de client. Het werkt met clients die het mcpServers-formaat accepteren, zoals Cursor en Claude Desktop."
+      },
+      "reference": "Open de volledige MCP- en CLI-referentie"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Sandbox nodig?",
+      "desc": "Test interactief zonder code.",
+      "link": "Open Playground"
+    },
+    "concepts": {
+      "title": "Concepten",
+      "desc": "Begrijp de architectuur.",
+      "link": "Kernconcepten"
+    }
+  }
+}

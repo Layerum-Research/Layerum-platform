@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "ログイン",
+    "signup": "登録"
+  },
+  "hero": {
+    "title": "アカウント作成",
+    "description": "アーキテクチャワークスペースを初期化します。"
+  },
+  "oauth": {
+    "github": "GitHubで続行",
+    "google": "Googleで続行"
+  },
+  "divider": "または認証情報で続行",
+  "form": {
+    "fullNameLabel": "氏名",
+    "fullNamePlaceholder": "山田 太郎",
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "パスワード",
+    "passwordPlaceholder": "8文字以上",
+    "submit": "アカウント作成",
+    "submitting": "アカウント作成中..."
+  },
+  "states": {
+    "preparing": "登録を準備中...",
+    "redirecting": "リダイレクト中..."
+  },
+  "messages": {
+    "validationError": "有効な氏名と8文字以上のパスワードを入力してください。",
+    "successEmail": "メールを確認して認証後、ログインしてください。",
+    "successAccount": "アカウントが作成されました"
+  },
+  "terms": {
+    "prefix": "すでにアカウントをお持ちですか？",
+    "link": "ログイン"
+  },
+  "side": {
+    "scopedAccess": "スコープ付きアクセス",
+    "scopedAccessDesc": "ワークスペースAPIキーは機能とスコープの制御をサポートします。",
+    "hostedApi": "ホスト型API",
+    "hostedApiDesc": "公開 /v1 API または公式SDKで統合できます。"
+  }
+}

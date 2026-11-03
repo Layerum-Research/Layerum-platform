@@ -1,0 +1,11 @@
+{
+  "brand": "Layerum",
+  "engineeringIntelligence": "エンジニアリング・インテリジェンス。",
+  "copyright": "© {year} Layerum。エンジニアリング・インテリジェンス。",
+  "metadata": {
+    "title": "Layerum",
+    "description": "Layerumは、本番運用向けの制御重視RAGプラットフォームです。ワークスペース単位のアクセス、ドキュメント取り込み、検索、ガバナンスをAPIとSDKのワークフローで一貫して管理できます。",
+    "authTitle": "アカウントアクセス",
+    "authDescription": "Layerum のワークスペース、ドキュメント、API アクセスを管理するためにサインインまたはアカウントを作成してください。"
+  }
+}

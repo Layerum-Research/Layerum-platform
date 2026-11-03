@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "登录",
+    "signup": "注册"
+  },
+  "hero": {
+    "title": "创建账户",
+    "description": "初始化您的架构工作空间。"
+  },
+  "oauth": {
+    "github": "使用 GitHub 继续",
+    "google": "使用 Google 继续"
+  },
+  "divider": "或使用凭证继续",
+  "form": {
+    "fullNameLabel": "姓名",
+    "fullNamePlaceholder": "张伟",
+    "emailLabel": "邮箱地址",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "密码",
+    "passwordPlaceholder": "至少 8 个字符",
+    "submit": "创建账户",
+    "submitting": "正在创建账户..."
+  },
+  "states": {
+    "preparing": "正在准备注册...",
+    "redirecting": "正在跳转..."
+  },
+  "messages": {
+    "validationError": "请输入有效姓名和至少 8 个字符的密码。",
+    "successEmail": "请检查邮箱并完成验证，然后登录继续。",
+    "successAccount": "账户已创建"
+  },
+  "terms": {
+    "prefix": "已有账户？",
+    "link": "登录"
+  },
+  "side": {
+    "scopedAccess": "范围控制访问",
+    "scopedAccessDesc": "工作空间 API 密钥支持能力和访问范围控制。",
+    "hostedApi": "托管 API",
+    "hostedApiDesc": "通过公共 /v1 API 或官方 SDK 进行集成。"
+  }
+}

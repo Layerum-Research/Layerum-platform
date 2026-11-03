@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "문서",
+    "breadcrumbActive": "시작하기",
+    "title": "빠른 시작 가이드",
+    "description": "API 키로 시작한 뒤 SDK 또는 API를 사용하세요."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / 인증",
+      "title": "API 키",
+      "desc": "API 키를 생성 및 관리합니다."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "SDK로 데이터 처리 및 쿼리를 실행합니다."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "/v1 엔드포인트를 탐색하세요."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "설치",
+      "desc": "npm에서 SDK를 설치하세요."
+    },
+    "client": {
+      "title": "클라이언트 초기화",
+      "desc": "LayerumClient를 API 키로 초기화하세요."
+    },
+    "mcpCli": {
+      "title": "MCP 및 CLI",
+      "desc": "터미널이나 AI 어시스턴트에서 Layerum을 사용할 수 있습니다. CLI와 MCP 서버는 OAuth로 본인의 Layerum 계정에 로그인하므로 사람과 AI 어시스턴트용입니다. SDK는 워크스페이스 API 키(lyr_wk_*)를 사용하며 서버 통합용입니다.",
+      "install": {
+        "title": "설치",
+        "desc": "CLI를 전역으로 설치합니다. Node 20 이상이 필요합니다."
+      },
+      "signIn": {
+        "title": "로그인",
+        "desc": "Layerum 서버 URL을 설정한 다음 로그인합니다. layerum login은 브라우저를 열고 OAuth로 로그인합니다. SSH나 컨테이너에서는 layerum login --code를 사용하세요. 출력된 URL을 아무 기기에서나 열어 승인하고 코드를 붙여넣습니다."
+      },
+      "assistants": {
+        "title": "AI 어시스턴트 연결",
+        "desc": "MCP 서버를 어시스턴트에 등록합니다. 어시스턴트는 Layerum이 처음 필요할 때 login 도구로 로그인합니다. Claude Code:",
+        "othersDesc": "다른 MCP 클라이언트: 클라이언트의 MCP 설정에 다음을 추가하세요. Cursor, Claude Desktop처럼 mcpServers 형식을 지원하는 클라이언트에서 동작합니다."
+      },
+      "reference": "MCP 및 CLI 전체 레퍼런스 열기"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "샌드박스가 필요하신가요?",
+      "desc": "인터랙티브 환경에서 테스트하세요.",
+      "link": "플레이그라운드 열기"
+    },
+    "concepts": {
+      "title": "개념",
+      "desc": "아키텍처를 이해하세요.",
+      "link": "핵심 개념"
+    }
+  }
+}

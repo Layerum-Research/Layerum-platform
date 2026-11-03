@@ -1,0 +1,26 @@
+# Layerum
+
+> Layerum is a control-first RAG (retrieval-augmented generation) platform. Teams model their organization as a hierarchy of entities inside a workspace, ingest documents (files, URLs, raw text) into those entities, and query them through a public REST API or the TypeScript SDK. Retrieval is limited by entity scope, role permissions and scoped API keys. Model providers are bring-your-own-key.
+
+Key facts for agents:
+
+- API base URL: the backend URL of this Layerum installation, for example `http://localhost:4000`. All public endpoints are under `/v1/*`.
+- Auth: `Authorization: Bearer lyr_wk_...` (a workspace API key, created in the Layerum app under Workspace -> API Keys).
+- API keys carry capabilities (`query:read`, `data:ingest`, `config:manage`) and entity/model scopes, all enforced server-side.
+- Official SDK: `npm i @layerum-team/rag-sdk` (TypeScript/JavaScript).
+- CLI and MCP server for people and AI assistants (OAuth sign-in, not API keys): `npm i -g @layerum-team/cli`.
+- To answer a question from a workspace's knowledge: `POST /v1/query`.
+
+## Docs
+
+- [Public API reference](/llms/api.md): every `/v1` endpoint, auth, error format, enums, upload flow, cURL examples
+- [SDK reference](/llms/sdk.md): `@layerum-team/rag-sdk` client options, methods, types, error handling
+- [CLI and MCP reference](/llms/cli.md): `@layerum-team/cli` install, OAuth login, commands, MCP server setup and tools, environment variables
+- [Quick start](/docs): create an API key, install the SDK, first calls
+- [Core concepts](/docs/concepts): workspaces, entity hierarchy, scopes
+- [Reference (HTML)](/docs/reference): the same API and SDK reference as a web page
+
+## Optional
+
+- [SDK on npm](https://www.npmjs.com/package/@layerum-team/rag-sdk)
+- [License](/license): Elastic License 2.0

@@ -1,0 +1,44 @@
+{
+  "name": "@layerum-team/cli",
+  "version": "0.1.0",
+  "description": "Layerum command line tool and MCP server.",
+  "type": "module",
+  "bin": {
+    "layerum": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"test/**/*.test.ts\"",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  },
+  "keywords": [
+    "layerum",
+    "cli",
+    "mcp"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "commander": "^15.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}

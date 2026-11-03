@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "Documentatie",
+    "license": "Licentie"
+  },
+  "actions": {
+    "signIn": "Inloggen",
+    "getStarted": "Aan de slag"
+  },
+  "language": {
+    "label": "Taal"
+  },
+  "aria": {
+    "primaryNav": "Hoofdnavigatie",
+    "mobileNav": "Mobiele navigatie"
+  },
+  "theme": {
+    "toggle": "Thema wisselen"
+  },
+  "menu": {
+    "label": "Menu",
+    "open": "Menu openen",
+    "close": "Menu sluiten"
+  }
+}

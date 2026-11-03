@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Dokumentation",
+    "breadcrumbActive": "Erste Schritte",
+    "title": "Schnellstart-Anleitung",
+    "description": "Beginnen Sie mit API-Schlüsseln und nutzen Sie anschließend das SDK oder direkte API-Aufrufe. Öffnen Sie die Referenzseite für vollständige Methoden- und Abfrage-Dokumentation."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "API-Schlüssel",
+      "desc": "Erstellen, einschränken, rotieren und widerrufen Sie Workspace-API-Schlüssel für sichere Integrationen."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Verwenden Sie @layerum-team/rag-sdk für Entitäten, Uploads, Ingestion-Warteprozesse und Abfrage-Workflows."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Entdecken Sie öffentliche /v1-Endpunkte, Funktionen, Berechtigungen sowie Anfrage-/Antwortverhalten."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Installation",
+      "desc": "Installieren Sie das offizielle SDK-Paket über npm."
+    },
+    "client": {
+      "title": "Client initialisieren",
+      "desc": "Initialisieren Sie LayerumClient mit Ihrem Workspace-API-Schlüssel."
+    },
+    "mcpCli": {
+      "title": "MCP und CLI",
+      "desc": "Nutze Layerum im Terminal oder mit einem KI-Assistenten. CLI und MCP-Server melden sich über OAuth mit deinem eigenen Layerum-Konto an und sind für Personen und KI-Assistenten gedacht. Das SDK nutzt Workspace-API-Schlüssel (lyr_wk_*) und ist für Server-Integrationen gedacht.",
+      "install": {
+        "title": "Installation",
+        "desc": "Installiere die CLI global. Erfordert Node 20 oder neuer."
+      },
+      "signIn": {
+        "title": "Anmelden",
+        "desc": "Lege die URLs deines Layerum-Servers fest und melde dich dann an. layerum login öffnet deinen Browser und meldet dich per OAuth an. Per SSH oder im Container verwende layerum login --code: Öffne die ausgegebene URL auf einem beliebigen Gerät, autorisiere und füge den Code ein."
+      },
+      "assistants": {
+        "title": "KI-Assistenten verbinden",
+        "desc": "Registriere den MCP-Server bei deinem Assistenten. Der Assistent meldet sich beim ersten Zugriff auf Layerum über sein Login-Tool an. Claude Code:",
+        "othersDesc": "Andere MCP-Clients: Füge dies zur MCP-Konfiguration des Clients hinzu. Es funktioniert mit Clients, die das mcpServers-Format akzeptieren, etwa Cursor und Claude Desktop."
+      },
+      "reference": "Vollständige MCP- und CLI-Referenz öffnen"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Brauchen Sie eine Sandbox?",
+      "desc": "Nutzen Sie unsere interaktive Playground-Umgebung, um API-Aufrufe in Echtzeit zu testen, ohne eine einzige Zeile lokalen Code zu schreiben.",
+      "link": "Playground öffnen"
+    },
+    "concepts": {
+      "title": "Konzepte lesen",
+      "desc": "Verstehen Sie die zugrunde liegende Architektur von Layerum und wie wir hochdichte Datenvektoren verarbeiten.",
+      "link": "Grundkonzepte"
+    }
+  }
+}

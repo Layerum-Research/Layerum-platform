@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "signin": "ログイン",
+    "signup": "登録"
+  },
+  "hero": {
+    "title": "おかえりなさい",
+    "description": "アーキテクチャの作業を続けましょう。"
+  },
+  "oauth": {
+    "github": "GitHubで続行",
+    "google": "Googleで続行"
+  },
+  "divider": "または認証情報で続行",
+  "form": {
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "パスワード",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "パスワードを忘れた？",
+    "forgotSend": "リセットリンクを送信",
+    "forgotSending": "送信中...",
+    "forgotBack": "ログインに戻る",
+    "forgotSuccess": "パスワードリセットリンクをメールでご確認ください。",
+    "submit": "ログイン",
+    "submitting": "認証中..."
+  },
+  "states": {
+    "preparing": "ログイン準備中...",
+    "redirecting": "リダイレクト中..."
+  },
+  "side": {
+    "scopedAccess": "スコープ付きアクセス",
+    "scopedAccessDesc": "ワークスペースAPIキーは機能とスコープの制御をサポートします。",
+    "hostedApi": "ホスト型API",
+    "hostedApiDesc": "公開 /v1 API または公式SDKで統合できます。"
+  }
+}

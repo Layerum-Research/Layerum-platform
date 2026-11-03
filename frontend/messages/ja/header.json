@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "ドキュメント",
+    "license": "ライセンス"
+  },
+  "actions": {
+    "signIn": "サインイン",
+    "getStarted": "始める"
+  },
+  "language": {
+    "label": "言語"
+  },
+  "aria": {
+    "primaryNav": "主要ナビゲーション",
+    "mobileNav": "モバイルナビゲーション"
+  },
+  "theme": {
+    "toggle": "テーマを切り替える"
+  },
+  "menu": {
+    "label": "メニュー",
+    "open": "メニューを開く",
+    "close": "メニューを閉じる"
+  }
+}

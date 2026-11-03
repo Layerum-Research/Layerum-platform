@@ -1,0 +1,65 @@
+/* Layerum public tokens — Linear-grade, dark-first.
+   Hairlines, dense surfaces, periwinkle accent, mono kickers.
+   Driven by html[data-public-theme]. */
+
+:root,
+html[data-public-theme='dark'] {
+  --pb-bg: #08090a;
+  --pb-bg-2: #0e0f11;
+  --pb-surface: #101012;
+  --pb-surface-solid: #141416;
+  --pb-surface-alt: #0c0d0e;
+  --pb-glass: #101012;
+  --pb-border: rgba(255, 255, 255, 0.09);
+  --pb-border-soft: rgba(255, 255, 255, 0.06);
+  --pb-border-strong: rgba(255, 255, 255, 0.16);
+  --pb-text: #f7f8f8;
+  --pb-muted: #8a8f98;
+  --pb-subtle: #63676e;
+  --pb-accent: #b8b9ff;
+  --pb-accent-2: #8083ff;
+  --pb-accent-deep: #5e6ad2;
+  --pb-accent-strong: #1a1b3a;
+  --pb-accent-ink: #08090a;
+  --pb-glow: transparent;
+  --pb-aurora-1: transparent;
+  --pb-aurora-2: transparent;
+  --pb-aurora-3: transparent;
+  --pb-header-bg: rgba(8, 9, 10, 0.85);
+  --pb-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --pb-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --pb-radius: 0.5rem;
+  --pb-cta-ink: #08090a;
+  --pb-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  color-scheme: dark;
+}
+
+html[data-public-theme='light'] {
+  --pb-bg: #fafafa;
+  --pb-bg-2: #f1f2f4;
+  --pb-surface: #ffffff;
+  --pb-surface-solid: #ffffff;
+  --pb-surface-alt: #f1f2f4;
+  --pb-glass: #ffffff;
+  --pb-border: #e4e4e7;
+  --pb-border-soft: #eeeef1;
+  --pb-border-strong: #d4d4d8;
+  --pb-text: #08090a;
+  --pb-muted: #52525b;
+  --pb-subtle: #8a8f98;
+  --pb-accent: #4f46e5;
+  --pb-accent-2: #5e6ad2;
+  --pb-accent-deep: #4f46e5;
+  --pb-accent-strong: #eef0ff;
+  --pb-accent-ink: #ffffff;
+  --pb-glow: transparent;
+  --pb-aurora-1: transparent;
+  --pb-aurora-2: transparent;
+  --pb-aurora-3: transparent;
+  --pb-header-bg: rgba(250, 250, 250, 0.85);
+  --pb-shadow: 0 8px 24px rgba(8, 9, 10, 0.08);
+  --pb-card-shadow: 0 8px 24px rgba(8, 9, 10, 0.07);
+  --pb-cta-ink: #ffffff;
+  --pb-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  color-scheme: light;
+}

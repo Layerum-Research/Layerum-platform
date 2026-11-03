@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "Documentación",
+    "license": "Licencia"
+  },
+  "actions": {
+    "signIn": "Iniciar sesión",
+    "getStarted": "Comenzar"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "aria": {
+    "primaryNav": "Navegación principal",
+    "mobileNav": "Navegación móvil"
+  },
+  "theme": {
+    "toggle": "Cambiar tema"
+  },
+  "menu": {
+    "label": "Menú",
+    "open": "Abrir menú",
+    "close": "Cerrar menú"
+  }
+}

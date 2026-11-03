@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "文档",
+    "breadcrumbActive": "快速开始",
+    "title": "快速入门指南",
+    "description": "从 API 密钥开始，然后使用 SDK 或 API。"
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / 认证",
+      "title": "API 密钥",
+      "desc": "创建并管理 API 密钥。"
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "使用 SDK 处理数据和查询。"
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "探索 /v1 接口。"
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "安装",
+      "desc": "通过 npm 安装 SDK。"
+    },
+    "client": {
+      "title": "初始化客户端",
+      "desc": "使用 API 密钥初始化 LayerumClient。"
+    },
+    "mcpCli": {
+      "title": "MCP 与 CLI",
+      "desc": "可在终端或 AI 助手中使用 Layerum。CLI 和 MCP 服务器通过 OAuth 使用你自己的 Layerum 账户登录，适用于个人和 AI 助手。SDK 使用工作区 API 密钥（lyr_wk_*），适用于服务器集成。",
+      "install": {
+        "title": "安装",
+        "desc": "全局安装 CLI。需要 Node 20 或更高版本。"
+      },
+      "signIn": {
+        "title": "登录",
+        "desc": "先设置你的 Layerum 服务器 URL，然后登录。layerum login 会打开浏览器并通过 OAuth 登录。在 SSH 或容器中请使用 layerum login --code：在任意设备上打开打印出的 URL，授权后粘贴代码。"
+      },
+      "assistants": {
+        "title": "连接 AI 助手",
+        "desc": "在你的助手中注册 MCP 服务器。助手第一次需要使用 Layerum 时会通过其 login 工具登录。Claude Code：",
+        "othersDesc": "其他 MCP 客户端：将以下内容添加到客户端的 MCP 配置中。适用于接受 mcpServers 格式的客户端，例如 Cursor 和 Claude Desktop。"
+      },
+      "reference": "打开完整的 MCP 与 CLI 参考"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "需要沙箱环境？",
+      "desc": "无需编写代码即可测试。",
+      "link": "打开 Playground"
+    },
+    "concepts": {
+      "title": "核心概念",
+      "desc": "理解架构设计。",
+      "link": "核心概念"
+    }
+  }
+}

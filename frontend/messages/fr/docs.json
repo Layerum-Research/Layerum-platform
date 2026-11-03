@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Documentation",
+    "breadcrumbActive": "Démarrage",
+    "title": "Guide de démarrage rapide",
+    "description": "Commencez avec les clés API, puis utilisez le SDK ou l’API."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "Clés API",
+      "desc": "Créez et gérez les clés API."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Utilisez le SDK pour l’ingestion et les requêtes."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Explorez les endpoints /v1."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Installation",
+      "desc": "Installez le SDK via npm."
+    },
+    "client": {
+      "title": "Initialiser le client",
+      "desc": "Initialisez LayerumClient avec votre clé API."
+    },
+    "mcpCli": {
+      "title": "MCP et CLI",
+      "desc": "Utilisez Layerum depuis un terminal ou un assistant IA. La CLI et le serveur MCP se connectent avec votre propre compte Layerum via OAuth : ils s'adressent aux personnes et aux assistants IA. Le SDK utilise des clés d'API de workspace (lyr_wk_*) et sert aux intégrations serveur.",
+      "install": {
+        "title": "Installation",
+        "desc": "Installez la CLI globalement. Nécessite Node 20 ou plus récent."
+      },
+      "signIn": {
+        "title": "Connexion",
+        "desc": "Définissez les URL de votre serveur Layerum, puis connectez-vous. layerum login ouvre votre navigateur et vous connecte avec OAuth. Sur SSH ou dans un conteneur, utilisez layerum login --code : ouvrez l'URL affichée sur n'importe quel appareil, autorisez, puis collez le code."
+      },
+      "assistants": {
+        "title": "Connecter un assistant IA",
+        "desc": "Enregistrez le serveur MCP auprès de votre assistant. L'assistant se connecte avec son outil login la première fois qu'il a besoin de Layerum. Claude Code :",
+        "othersDesc": "Autres clients MCP : ajoutez ceci à la configuration MCP du client. Cela fonctionne avec les clients qui acceptent le format mcpServers, comme Cursor et Claude Desktop."
+      },
+      "reference": "Ouvrir la référence complète MCP et CLI"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Besoin d’un sandbox ?",
+      "desc": "Essayez le playground interactif.",
+      "link": "Ouvrir Playground"
+    },
+    "concepts": {
+      "title": "Concepts",
+      "desc": "Comprenez l’architecture sous-jacente de Layerum.",
+      "link": "Concepts fondamentaux"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+.table-pagination {
+  background: var(--app-surface);
+  border-top: 1px solid rgba(var(--app-border-rgb), 0.1);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.table-pagination p {
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.table-pagination div {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.table-pagination button {
+  border: 0;
+  border-radius: 8px;
+  background: var(--app-control-hover);
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.table-pagination button.active {
+  background: rgba(var(--app-accent-rgb), 0.18);
+  color: var(--app-accent-soft);
+}
+
+.table-pagination button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .table-pagination {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+}

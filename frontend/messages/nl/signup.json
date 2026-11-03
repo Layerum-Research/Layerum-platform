@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "Inloggen",
+    "signup": "Registreren"
+  },
+  "hero": {
+    "title": "Account aanmaken",
+    "description": "Initialiseer je architectuur-werkruimte."
+  },
+  "oauth": {
+    "github": "Doorgaan met GitHub",
+    "google": "Doorgaan met Google"
+  },
+  "divider": "Of ga verder met inloggegevens",
+  "form": {
+    "fullNameLabel": "Volledige naam",
+    "fullNamePlaceholder": "Jan Jansen",
+    "emailLabel": "E-mailadres",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Wachtwoord",
+    "passwordPlaceholder": "Minimaal 8 tekens",
+    "submit": "Account aanmaken",
+    "submitting": "Account wordt aangemaakt..."
+  },
+  "states": {
+    "preparing": "Registratie voorbereiden...",
+    "redirecting": "Doorsturen..."
+  },
+  "messages": {
+    "validationError": "Voer een geldige naam en een wachtwoord van minimaal 8 tekens in.",
+    "successEmail": "Controleer je inbox om je e-mail te bevestigen en log daarna in.",
+    "successAccount": "Account aangemaakt"
+  },
+  "terms": {
+    "prefix": "Heb je al toegang?",
+    "link": "Inloggen"
+  },
+  "side": {
+    "scopedAccess": "Toegang met scope",
+    "scopedAccessDesc": "Workspace API-sleutels ondersteunen controle over mogelijkheden en scopes.",
+    "hostedApi": "Gehoste API",
+    "hostedApiDesc": "Integreer via de publieke /v1 API of de officiële SDK."
+  }
+}

@@ -1,0 +1,558 @@
+.workspaces-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  padding: 0;
+}
+
+.workspaces-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 24px 64px;
+  width: min(1440px, 100%);
+  margin: 0 auto;
+}
+
+.workspaces-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.workspaces-head h1 {
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+}
+
+.workspaces-head p {
+  margin-top: 6px;
+  max-width: 560px;
+  color: var(--app-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.workspaces-head .actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workspaces-head .search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--app-surface-2);
+  border: 1px solid rgba(var(--app-border-rgb), 0.25);
+  border-radius: 8px;
+  padding: 0 10px;
+  min-height: 32px;
+  min-width: 200px;
+}
+
+.workspaces-head .search input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--app-text);
+  font-size: 12.5px;
+  width: 100%;
+}
+
+.workspaces-head .create {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--app-accent-strong);
+  color: #fff;
+  padding: 0 13px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.workspaces-head .create:hover {
+  filter: brightness(1.08);
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: var(--app-surface);
+  border: 1px solid rgba(var(--app-border-rgb), 0.16);
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  transition: border-color 120ms ease;
+}
+
+.card:hover {
+  border-color: rgba(var(--app-border-rgb), 0.35);
+}
+
+.workspace-delete-button {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--app-text-faint);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0;
+}
+
+.card:hover .workspace-delete-button,
+.workspace-delete-button:focus-visible {
+  opacity: 1;
+}
+
+.workspace-delete-button:hover {
+  background: rgba(255, 124, 128, 0.12);
+  color: var(--danger-text);
+}
+
+.card .icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: rgba(var(--app-accent-rgb), 0.12);
+  border: 1px solid rgba(var(--app-accent-rgb), 0.22);
+  color: var(--app-accent-soft);
+}
+
+.card h2,
+.card h3 {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+}
+
+.card .slug {
+  margin-top: 2px;
+  display: block;
+  color: var(--app-text-muted);
+  font-size: 11px;
+}
+
+.card p {
+  margin-top: 6px;
+  color: var(--app-text-muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.card.hero {
+  grid-column: span 2;
+}
+
+.card.hero .meta-3 {
+  margin-top: 16px;
+  border-top: 1px solid rgba(var(--app-border-rgb), 0.12);
+  padding-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.card.hero label {
+  color: var(--app-text-faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.card.hero b {
+  margin-top: 2px;
+  display: block;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.card.hero .open-link {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-accent-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.card.hero .open-link:hover {
+  text-decoration: underline;
+}
+
+.card.hero u {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  text-decoration: none;
+  background: rgba(var(--app-accent-rgb), 0.12);
+  border: 1px solid rgba(var(--app-accent-rgb), 0.24);
+  border-radius: 999px;
+  color: var(--app-accent-soft);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+}
+
+.card.side .rows {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card.side .rows div {
+  display: flex;
+  justify-content: space-between;
+  color: var(--app-text-secondary);
+  font-size: 12px;
+}
+
+.card.side .rows .bar {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--app-control);
+  overflow: hidden;
+}
+
+.card.side .rows .bar em {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--app-accent-soft);
+}
+
+.card.side a {
+  margin-top: 14px;
+  display: inline-block;
+  color: var(--app-accent-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.card.mini dl {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card.mini dt {
+  color: var(--app-text-faint);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.card.mini dd {
+  color: var(--app-text);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.card.mini .open-link-mini {
+  margin-top: 12px;
+  display: inline-block;
+  color: var(--app-accent-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.card.mini .cold {
+  margin-top: 12px;
+}
+
+.card.mini .cold strong {
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.card.mini .cold span {
+  margin-left: 6px;
+  color: var(--app-text-faint);
+  font-size: 13px;
+}
+
+.card.mini small {
+  margin-top: 10px;
+  display: inline-block;
+  color: var(--app-text-muted);
+  background: var(--app-control);
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+}
+
+.card.skeleton {
+  background: rgba(var(--app-border-rgb), 0.06);
+  border-color: rgba(var(--app-border-rgb), 0.06);
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
+  animation: card-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes card-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.card.provision {
+  border-style: dashed;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  text-align: center;
+  min-height: 180px;
+}
+
+.card.provision .plus {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--app-surface-2);
+  border: 1px solid rgba(var(--app-border-rgb), 0.25);
+  color: var(--app-text-faint);
+  display: grid;
+  place-items: center;
+}
+
+.card.provision h3 {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.card.provision h3 button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.card.provision h3 button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.card.provision p {
+  margin-top: 2px;
+}
+
+.activity header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activity-coming-soon {
+  position: relative;
+}
+
+.activity-coming-soon .activity-content {
+  filter: blur(6px);
+  opacity: 0.58;
+  pointer-events: none;
+  user-select: none;
+}
+
+.activity-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  color: var(--app-text);
+  text-transform: uppercase;
+}
+
+.activity h2 {
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 650;
+}
+
+.activity header div {
+  flex: 1;
+  height: 1px;
+  background: rgba(var(--app-border-rgb), 0.2);
+}
+
+.activity header a {
+  color: var(--app-text-faint);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.activity header a:hover {
+  color: var(--app-text);
+}
+
+.activity-table {
+  margin-top: 12px;
+  background: var(--app-surface);
+  border: 1px solid rgba(var(--app-border-rgb), 0.16);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.activity-table .head,
+.activity-table .row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 1.35fr 1fr 0.8fr;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 16px;
+}
+
+.activity-table .head {
+  border-bottom: 1px solid rgba(var(--app-border-rgb), 0.12);
+  background: rgba(var(--app-border-rgb), 0.06);
+}
+
+.activity-table .head span {
+  color: var(--app-text-faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.activity-table .row {
+  border-top: 1px solid rgba(var(--app-border-rgb), 0.08);
+  color: var(--app-text-muted);
+  font-size: 12.5px;
+}
+
+.activity-table .row:first-of-type {
+  border-top: 0;
+}
+
+.activity-table .row span:nth-child(1) {
+  color: var(--app-text);
+  font-weight: 550;
+}
+
+.activity-table .row span:nth-child(2) {
+  color: var(--app-text-secondary);
+  font-size: 11.5px;
+}
+
+.activity-table u {
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.activity-table u.ok {
+  color: var(--app-accent-soft);
+  background: rgba(var(--app-accent-rgb), 0.12);
+}
+
+.activity-table u.warn {
+  color: #d97721;
+  background: rgba(217, 119, 33, 0.12);
+}
+
+.activity-table u.danger {
+  color: var(--danger-text);
+  background: rgba(255, 180, 171, 0.12);
+}
+
+.activity-table .empty {
+  padding: 16px;
+  color: var(--app-text-muted);
+  font-size: 13px;
+}
+
+@media (max-width: 980px) {
+  .workspaces-content {
+    padding: 16px 16px 48px;
+  }
+
+  .workspaces-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card.hero {
+    grid-column: span 1;
+  }
+
+  .workspace-delete-button {
+    opacity: 1;
+  }
+
+  .activity-table .head {
+    display: none;
+  }
+
+  .activity-table .row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Dokumentacja",
+    "breadcrumbActive": "Pierwsze kroki",
+    "title": "Szybki start",
+    "description": "Zacznij od kluczy API, następnie użyj SDK lub API."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "Klucze API",
+      "desc": "Twórz i zarządzaj kluczami API."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Użyj SDK do przetwarzania i zapytań."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Poznaj endpointy /v1."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Instalacja",
+      "desc": "Zainstaluj SDK z npm."
+    },
+    "client": {
+      "title": "Inicjalizacja klienta",
+      "desc": "Zainicjuj LayerumClient kluczem API."
+    },
+    "mcpCli": {
+      "title": "MCP i CLI",
+      "desc": "Używaj Layerum z terminala lub asystenta AI. CLI i serwer MCP logują się przez OAuth na Twoje własne konto Layerum, więc są przeznaczone dla ludzi i asystentów AI. SDK używa kluczy API workspace (lyr_wk_*) i służy do integracji serwerowych.",
+      "install": {
+        "title": "Instalacja",
+        "desc": "Zainstaluj CLI globalnie. Wymaga Node 20 lub nowszego."
+      },
+      "signIn": {
+        "title": "Logowanie",
+        "desc": "Ustaw adresy URL swojego serwera Layerum, a potem się zaloguj. layerum login otwiera przeglądarkę i loguje przez OAuth. Przez SSH lub w kontenerze użyj layerum login --code: otwórz wyświetlony adres URL na dowolnym urządzeniu, zatwierdź i wklej kod."
+      },
+      "assistants": {
+        "title": "Połącz asystenta AI",
+        "desc": "Zarejestruj serwer MCP w swoim asystencie. Asystent loguje się narzędziem login przy pierwszym użyciu Layerum. Claude Code:",
+        "othersDesc": "Inne klienty MCP: dodaj to do konfiguracji MCP klienta. Działa z klientami akceptującymi format mcpServers, takimi jak Cursor i Claude Desktop."
+      },
+      "reference": "Otwórz pełną dokumentację MCP i CLI"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Potrzebujesz sandboxa?",
+      "desc": "Testuj interaktywnie bez kodu.",
+      "link": "Otwórz Playground"
+    },
+    "concepts": {
+      "title": "Koncepcje",
+      "desc": "Zrozum architekturę.",
+      "link": "Kluczowe koncepcje"
+    }
+  }
+}

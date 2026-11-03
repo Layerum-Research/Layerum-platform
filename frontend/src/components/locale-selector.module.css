@@ -1,0 +1,105 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label {
+  color: var(--pb-subtle, #a1a1aa);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 138px;
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid var(--pb-border, rgba(70, 69, 84, 0.45));
+  background: var(--pb-surface, #131313);
+  color: var(--pb-text, #e5e2e1);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trigger:hover {
+  border-color: var(--pb-border-strong, rgba(192, 193, 255, 0.45));
+}
+
+.trigger:focus-visible {
+  outline: none;
+  border-color: var(--pb-accent-2, rgba(128, 131, 255, 0.75));
+  box-shadow: 0 0 0 2px var(--pb-glow, rgba(128, 131, 255, 0.18));
+}
+
+.value {
+  white-space: nowrap;
+}
+
+.chevron {
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  bottom: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 180px;
+  max-width: calc(100vw - 16px);
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid var(--pb-border, rgba(70, 69, 84, 0.55));
+  background: var(--pb-surface-solid, #0d0d0f);
+  box-shadow: var(--pb-card-shadow, 0 16px 40px rgba(0, 0, 0, 0.45));
+  padding: 0.35rem;
+  z-index: 80;
+}
+
+.option {
+  width: 100%;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+  border-radius: 4px;
+  padding: 0.45rem 0.5rem;
+  background: transparent;
+  color: var(--pb-text, #e5e2e1);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--pb-border-soft, rgba(192, 193, 255, 0.12));
+}
+
+.optionActive {
+  background: var(--pb-accent-strong, rgba(128, 131, 255, 0.22));
+  color: var(--pb-accent, #f4f4f5);
+}
+
+html[data-public-theme='light'] .optionActive {
+  color: var(--pb-accent-2, #4338ca);
+}
+
+.nativeFallback {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+}

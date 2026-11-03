@@ -1,0 +1,146 @@
+/* Layerum loading screen — shared transition state.
+   Tone 'app' maps to --app-* tokens, tone 'public' to --pb-* tokens,
+   so the loader always matches the active theme. */
+
+.loading-screen[data-tone='app'] {
+  --ls-bg: var(--app-bg);
+  --ls-surface: var(--app-surface);
+  --ls-border: var(--app-border);
+  --ls-text: var(--app-text);
+  --ls-muted: var(--app-text-muted);
+  --ls-accent: var(--app-accent);
+  --ls-accent-strong: var(--app-accent-strong);
+  --ls-glow: rgba(var(--app-accent-rgb), 0.12);
+  --ls-track: rgba(var(--app-border-rgb), 0.22);
+}
+
+.loading-screen[data-tone='public'] {
+  --ls-bg: var(--pb-bg);
+  --ls-surface: var(--pb-surface);
+  --ls-border: var(--pb-border);
+  --ls-text: var(--pb-text);
+  --ls-muted: var(--pb-muted);
+  --ls-accent: var(--pb-accent);
+  --ls-accent-strong: var(--pb-accent-2);
+  --ls-glow: color-mix(in srgb, var(--pb-accent) 12%, transparent);
+  --ls-track: var(--pb-border-soft);
+}
+
+.loading-screen[data-fullscreen='true'] {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 32%, var(--ls-glow), transparent 46%),
+    var(--ls-bg);
+}
+
+.loading-screen[data-fullscreen='false'] {
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+}
+
+.loading-screen-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: loading-screen-enter 320ms ease-out both;
+}
+
+.loading-screen-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loading-screen-logo {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background: var(--ls-surface);
+  border: 1px solid var(--ls-border);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.28),
+    0 0 24px var(--ls-glow);
+  overflow: hidden;
+}
+
+.loading-screen-logo img {
+  border-radius: 8px;
+}
+
+.loading-screen-word {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ls-text);
+}
+
+.loading-screen-bar {
+  width: 168px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--ls-track);
+  overflow: hidden;
+}
+
+.loading-screen-bar-fill {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ls-accent-strong), var(--ls-accent));
+  animation: loading-screen-slide 1.15s ease-in-out infinite;
+}
+
+.loading-screen-fallback {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ls-muted);
+}
+
+.loading-screen-fallback a {
+  color: var(--ls-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.loading-screen-fallback a:hover {
+  color: var(--ls-accent-strong);
+}
+
+@keyframes loading-screen-slide {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(290%);
+  }
+}
+
+@keyframes loading-screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen-inner {
+    animation: none;
+  }
+  .loading-screen-bar-fill {
+    animation-duration: 2.4s;
+  }
+}

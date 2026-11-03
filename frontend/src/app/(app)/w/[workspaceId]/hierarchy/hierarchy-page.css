@@ -1,0 +1,835 @@
+.hierarchy-page {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  color: var(--app-text);
+  padding: 0;
+  background: var(--app-bg);
+  border: 1px solid var(--app-surface-2);
+  position: relative;
+  --hierarchy-connector-core: rgba(var(--app-accent-rgb), 0.84);
+  --hierarchy-connector-soft: rgba(var(--app-accent-rgb), 0.42);
+  --hierarchy-connector-muted: rgba(var(--app-accent-rgb), 0.16);
+  --hierarchy-connector-waterfall-period: 64px;
+  --hierarchy-connector-wave-period: 80px;
+  --hierarchy-dot: rgba(28, 27, 27, 0.95);
+}
+
+html[data-app-theme='light'] .hierarchy-page {
+  --hierarchy-dot: rgba(118, 131, 151, 0.45);
+}
+
+.hierarchy-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0;
+  height: calc(100vh - 40px);
+  min-height: 0;
+  overflow: hidden;
+  transition: grid-template-columns 0.2s ease;
+}
+
+.hierarchy-main.inspector-open {
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.hierarchy-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--app-surface-2);
+  border: 1px solid rgba(var(--app-border-rgb), 0.14);
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 14px;
+}
+
+.hierarchy-tab {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--app-text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 7px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hierarchy-tab.active {
+  background: var(--app-control);
+  color: var(--app-text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.hierarchy-card.is-drop-target {
+  outline: 2px dashed var(--app-accent-soft);
+  outline-offset: 3px;
+}
+
+.hierarchy-canvas {
+  position: relative;
+  padding: 0;
+  background-color: var(--app-bg);
+  background-image: radial-gradient(circle at 50% 50%, var(--hierarchy-dot) 1px, transparent 1px);
+  background-size: var(--hierarchy-grid-size, 72px) calc(var(--hierarchy-grid-size, 72px) * 0.94444);
+  background-position: var(--hierarchy-grid-x, 0px) var(--hierarchy-grid-y, 0px);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  overscroll-behavior: contain;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.hierarchy-canvas.is-panning {
+  cursor: grabbing;
+}
+
+.hierarchy-world {
+  position: absolute;
+  inset: 0 auto auto 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.hierarchy-graph {
+  position: relative;
+}
+
+.hierarchy-minimap {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: 196px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.24);
+  background: rgba(14, 14, 14, 0.82);
+  backdrop-filter: blur(6px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hierarchy-minimap-body {
+  position: relative;
+  width: 176px;
+  height: 120px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.18);
+  background:
+    radial-gradient(circle at 50% 50%, var(--hierarchy-dot) 1px, transparent 1px),
+    var(--app-bg);
+  background-size: 18px 17px;
+  overflow: hidden;
+}
+
+.hierarchy-minimap-viewport {
+  position: absolute;
+  border: 1px solid rgba(var(--app-accent-rgb), 0.9);
+  background: rgba(var(--app-accent-rgb), 0.1);
+  min-width: 10px;
+  min-height: 8px;
+  z-index: 1;
+}
+
+.hierarchy-minimap-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 8px;
+  background: var(--app-text-muted);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.hierarchy-minimap-node.active {
+  background: var(--app-accent-soft);
+  box-shadow: 0 0 0 2px rgba(var(--app-accent-rgb), 0.25);
+}
+
+.hierarchy-edges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hierarchy-edge-base {
+  fill: none;
+  stroke: var(--hierarchy-connector-muted);
+  stroke-width: 2;
+}
+
+.hierarchy-edge-pulse {
+  fill: none;
+  stroke: var(--hierarchy-connector-core);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 26 38;
+  opacity: 0.85;
+  animation: hierarchy-edge-flow 2.2s linear infinite;
+}
+
+.hierarchy-edge.active .hierarchy-edge-base {
+  stroke: var(--hierarchy-connector-soft);
+}
+
+.hierarchy-edge.active .hierarchy-edge-pulse {
+  animation-duration: 1.3s;
+}
+
+@keyframes hierarchy-edge-flow {
+  to {
+    stroke-dashoffset: -64;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-edge-pulse {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+.hierarchy-card {
+  position: absolute;
+  width: 240px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.1);
+  background: var(--app-control);
+  padding: 16px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.hierarchy-card:active {
+  cursor: grabbing;
+}
+
+.hierarchy-card.is-dragging {
+  z-index: 4;
+  cursor: grabbing;
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.55);
+}
+
+.hierarchy-card.is-active {
+  background: var(--app-surface-2);
+  border-color: rgba(var(--app-border-rgb), 0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px var(--app-accent-soft), 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+.hierarchy-card-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.hierarchy-card-head span {
+  color: var(--app-divider);
+  font-size: 11px;
+  line-height: 16.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.hierarchy-card.is-active .hierarchy-card-head span {
+  color: var(--app-accent-soft);
+}
+
+.hierarchy-card h3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.hierarchy-card:not(.is-active) h3 {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.hierarchy-entity-id {
+  color: var(--app-divider);
+  font-size: 11px;
+  line-height: 16.5px;
+}
+
+.hierarchy-docs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.hierarchy-docs-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hierarchy-docs-row em {
+  font-style: normal;
+  font-size: 11px;
+  line-height: 16.5px;
+  color: var(--app-divider);
+  background: var(--app-bg);
+  border: 1px solid rgba(var(--app-border-rgb), 0.1);
+  border-radius: 8px;
+  padding: 3px 7px;
+}
+
+.hierarchy-add-child {
+  margin-top: 14px;
+  width: 100%;
+  border: 1px dashed var(--app-divider);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--app-text-faint);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.hierarchy-add-child.hierarchy-add-docs {
+  margin-top: 8px;
+}
+
+.hierarchy-loading {
+  padding: 86px 24px 24px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hierarchy-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hierarchy-skeleton-row {
+  display: flex;
+  gap: 64px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hierarchy-skeleton-link-v {
+  width: 2px;
+  height: 32px;
+  background: var(--hierarchy-connector-muted);
+}
+
+.hierarchy-skeleton-card {
+  width: 240px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.1);
+  background: var(--app-control);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hierarchy-skeleton-docs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.hierarchy-skeleton-block {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(var(--app-border-rgb), 0.28);
+}
+
+.hierarchy-skeleton-block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--app-accent-rgb), 0.14),
+    transparent
+  );
+  animation: hierarchy-skeleton-shimmer 1.15s ease-in-out infinite;
+}
+
+.hierarchy-skeleton-block.w-label {
+  width: 40%;
+  height: 11px;
+}
+
+.hierarchy-skeleton-block.w-title {
+  width: 82%;
+  height: 18px;
+}
+
+.hierarchy-skeleton-block.w-id {
+  width: 48%;
+  height: 11px;
+}
+
+.hierarchy-skeleton-block.w-docs {
+  width: 44%;
+  height: 12px;
+}
+
+.hierarchy-skeleton-block.w-count {
+  width: 22%;
+  height: 12px;
+}
+
+.hierarchy-skeleton-block.w-button {
+  width: 100%;
+  height: 30px;
+  border-radius: 8px;
+}
+
+@keyframes hierarchy-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-skeleton-block::after {
+    animation: none;
+  }
+}
+
+.hierarchy-inspector {
+  border-left: 1px solid var(--app-surface-2);
+  background: var(--app-surface);
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.hierarchy-main.inspector-open .hierarchy-inspector {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hierarchy-inspector-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.hierarchy-inspector header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hierarchy-inspector h2 {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 650;
+  flex: 1;
+  min-width: 0;
+}
+
+.hierarchy-inspector-backdrop {
+  display: none;
+}
+
+.hierarchy-inspector-close {
+  display: none;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--app-text-muted);
+  cursor: pointer;
+}
+
+.hierarchy-inspector-close:hover {
+  background: rgba(var(--app-border-rgb), 0.18);
+  color: var(--app-text);
+}
+
+@keyframes hierarchy-inspector-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hierarchy-inspector-drop {
+  from { opacity: 0; transform: translateY(-10px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-inspector-backdrop,
+  .hierarchy-main.inspector-open .hierarchy-inspector {
+    animation: none;
+  }
+}
+
+.hierarchy-inspector header span {
+  color: var(--app-accent-soft);
+  background: rgba(var(--app-accent-rgb), 0.1);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 2px 8px;
+}
+
+.hierarchy-field {
+  margin-bottom: 24px;
+}
+
+.hierarchy-field label {
+  color: var(--app-divider);
+  font-size: 11px;
+  line-height: 16.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.hierarchy-input {
+  border-radius: 8px;
+  background: var(--app-surface-2);
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.hierarchy-id-box {
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.1);
+  background: var(--app-bg);
+  color: var(--app-accent-soft);
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.hierarchy-toggle-row {
+  border-radius: 8px;
+  background: var(--app-surface-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 19.5px;
+}
+
+.hierarchy-toggle {
+  width: 32px;
+  height: 16px;
+  border-radius: 12px;
+  background: var(--app-control-hover);
+  padding: 2px;
+}
+
+.hierarchy-toggle b {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--app-text-faint);
+}
+
+.hierarchy-toggle.on {
+  background: var(--app-accent-soft);
+}
+
+.hierarchy-toggle.on b {
+  margin-left: auto;
+  background: #1000a9;
+}
+
+.hierarchy-archive {
+  margin-top: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 180, 171, 0.1);
+  color: var(--danger-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+html[data-app-theme='light'] .hierarchy-archive {
+  background: rgba(185, 28, 28, 0.08);
+}
+
+.hierarchy-scope {
+  margin-top: auto;
+  border-top: 1px solid rgba(var(--app-border-rgb), 0.1);
+  padding-top: 18px;
+  color: var(--app-text-secondary);
+  font-size: 12px;
+}
+
+.hierarchy-scope span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hierarchy-scope-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.hierarchy-scope-tags em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--app-accent-soft);
+  background: rgba(var(--app-accent-rgb), 0.1);
+  border-radius: 8px;
+  padding: 2px 6px;
+}
+
+.hierarchy-actions-floating {
+  position: absolute;
+  right: 20px;
+  bottom: 32px;
+  z-index: 5;
+  width: 48px;
+  height: 48px;
+}
+
+.hierarchy-dial-main {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--app-accent-strong);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow:
+    0 12px 28px -8px rgba(var(--app-accent-rgb), 0.55),
+    0 4px 10px -4px rgba(0, 0, 0, 0.5);
+  transition: transform 200ms ease, background-color 150ms ease;
+}
+
+.hierarchy-dial-main:hover {
+  filter: brightness(1.1);
+}
+
+.hierarchy-dial-main svg {
+  transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.hierarchy-actions-floating.dial-open .hierarchy-dial-main svg {
+  transform: rotate(45deg);
+}
+
+.hierarchy-dial-action {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.3);
+  background: var(--app-surface-2);
+  color: var(--app-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  scale: 0.5;
+  pointer-events: none;
+  transform: translateY(0);
+  transition:
+    transform 240ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 160ms ease,
+    scale 200ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.hierarchy-dial-action:hover {
+  background: var(--app-control-hover);
+  color: var(--app-text);
+}
+
+.hierarchy-actions-floating.dial-open .hierarchy-dial-action {
+  opacity: 1;
+  scale: 1;
+  pointer-events: auto;
+  transform: translateY(calc(var(--d, 1) * -54px));
+  transition-delay: calc((var(--d, 1) - 1) * 45ms);
+}
+
+.hierarchy-dial-tip {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  translate: 4px -50%;
+  white-space: nowrap;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 7px 10px;
+  border-radius: 7px;
+  background: var(--app-surface-2);
+  border: 1px solid rgba(var(--app-border-rgb), 0.3);
+  color: var(--app-text);
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, translate 160ms ease;
+}
+
+.hierarchy-dial-action:hover .hierarchy-dial-tip,
+.hierarchy-dial-action:focus-visible .hierarchy-dial-tip {
+  opacity: 1;
+  translate: 0 -50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-dial-main,
+  .hierarchy-dial-main svg,
+  .hierarchy-dial-action,
+  .hierarchy-dial-tip {
+    transition: opacity 100ms ease;
+  }
+}
+
+.hierarchy-empty {
+  color: var(--app-text-faint);
+  text-align: center;
+  margin-top: 120px;
+  font-size: 14px;
+}
+
+@media (max-width: 1200px) {
+  .hierarchy-main {
+    position: relative;
+    z-index: 0;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .hierarchy-main.inspector-open {
+    grid-template-columns: 1fr;
+  }
+
+  .hierarchy-canvas {
+    height: calc(100svh - 40px);
+    min-height: 520px;
+  }
+
+  .hierarchy-main.inspector-open {
+    z-index: 60;
+  }
+
+  .hierarchy-inspector-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: hierarchy-inspector-fade 200ms ease;
+  }
+
+  .hierarchy-inspector {
+    position: fixed;
+    top: 48px;
+    left: 12px;
+    right: 12px;
+    z-index: 1;
+    max-width: 480px;
+    height: auto;
+    max-height: calc(100dvh - 80px);
+    margin: 0 auto;
+    border: 1px solid rgba(var(--app-border-rgb), 0.3);
+    border-radius: 14px;
+    box-shadow:
+      0 16px 40px -12px rgba(0, 0, 0, 0.55),
+      0 6px 12px -6px rgba(0, 0, 0, 0.4);
+    visibility: hidden;
+  }
+
+  .hierarchy-main.inspector-open .hierarchy-inspector {
+    visibility: visible;
+    animation: hierarchy-inspector-drop 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .hierarchy-inspector-inner {
+    height: auto;
+    max-height: calc(100dvh - 82px);
+    padding: 16px;
+  }
+
+  .hierarchy-inspector-close {
+    display: inline-flex;
+  }
+
+  .hierarchy-actions-floating {
+    right: 14px;
+    bottom: 26px;
+  }
+}
+
+@media (max-width: 860px) {
+  .hierarchy-minimap {
+    display: none;
+  }
+
+  .hierarchy-canvas {
+    touch-action: none;
+  }
+
+}

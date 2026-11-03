@@ -1,0 +1,322 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 4, 6, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  z-index: 90;
+  padding: 20px;
+  animation: modal-overlay-in 180ms ease;
+}
+
+.modal-shell {
+  position: relative;
+  width: min(520px, 100%);
+  animation: modal-panel-in 220ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.modal-panel {
+  width: 100%;
+  max-height: min(86vh, 920px);
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.28);
+  background: var(--app-surface);
+  box-shadow:
+    0 32px 64px -16px rgba(0, 0, 0, 0.55),
+    0 12px 24px -12px rgba(0, 0, 0, 0.4);
+  color: var(--app-text);
+}
+
+@keyframes modal-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-panel-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-shell {
+    animation: none;
+  }
+}
+
+.modal-floating {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 16px);
+  z-index: 2;
+}
+
+.modal-overlay-floating {
+  position: absolute;
+  z-index: 3;
+}
+
+.modal-header {
+  padding: 13px 14px 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(var(--app-border-rgb), 0.16);
+}
+
+.modal-title {
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.modal-body {
+  padding: 18px;
+  max-height: calc(86vh - 64px);
+  overflow: auto;
+}
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  color: var(--app-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: rgba(var(--app-border-rgb), 0.18);
+  color: var(--app-text);
+}
+
+.modal-body .layerum-stack {
+  gap: 16px;
+}
+
+.modal-body .layerum-form-field {
+  gap: 8px;
+}
+
+.modal-body .layerum-form-label {
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-weight: 650;
+}
+
+.modal-body .layerum-form-hint {
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.modal-body .layerum-input,
+.modal-body .layerum-select-trigger,
+.modal-body .layerum-textarea {
+  background: var(--app-surface-2);
+  border: 1px solid rgba(var(--app-border-rgb), 0.25);
+  border-radius: 8px;
+  color: var(--app-text);
+  padding: 8px 11px;
+  min-height: 34px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.modal-body .layerum-input::placeholder,
+.modal-body .layerum-textarea::placeholder {
+  color: var(--app-text-faint);
+}
+
+.modal-body .layerum-input:hover,
+.modal-body .layerum-select-trigger:hover,
+.modal-body .layerum-textarea:hover {
+  border-color: rgba(112, 110, 132, 0.45);
+}
+
+.modal-body .layerum-input:focus,
+.modal-body .layerum-select-trigger:focus,
+.modal-body .layerum-textarea:focus {
+  border-color: var(--app-accent-soft);
+  box-shadow: 0 0 0 2px rgba(var(--app-accent-rgb), 0.2);
+}
+
+.modal-body .layerum-input[type='file'] {
+  padding: 8px;
+  cursor: pointer;
+  color: var(--app-text-secondary);
+}
+
+.modal-body .layerum-input[type='file']::file-selector-button {
+  margin-right: 10px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.28);
+  background: var(--app-control);
+  color: var(--app-text);
+  border-radius: 2px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.modal-body .layerum-input[type='file']::file-selector-button:hover {
+  background: var(--app-control-hover);
+  border-color: rgba(var(--app-border-rgb), 0.42);
+}
+
+.modal-body .layerum-input[type='file']::-webkit-file-upload-button {
+  margin-right: 10px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.28);
+  background: var(--app-control);
+  color: var(--app-text);
+  border-radius: 2px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.modal-body .layerum-input[type='file']::-webkit-file-upload-button:hover {
+  background: var(--app-control-hover);
+  border-color: rgba(var(--app-border-rgb), 0.42);
+}
+
+.modal-body .layerum-select-menu,
+.modal-body .layerum-select-menu-portal {
+  background: var(--app-surface);
+  border: 1px solid rgba(var(--app-border-rgb), 0.3);
+}
+
+.modal-body .layerum-select-option:hover {
+  background: rgba(var(--app-accent-rgb), 0.14);
+}
+
+.modal-body .layerum-select-option.active {
+  background: rgba(var(--app-accent-rgb), 0.2);
+}
+
+.modal-body .layerum-button {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--app-accent-strong);
+  color: #fff;
+  font-size: 12.5px;
+  line-height: 20px;
+  font-weight: 650;
+  padding: 0 14px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.modal-body .layerum-button:hover {
+  filter: brightness(1.1);
+}
+
+.modal-body .layerum-button:disabled {
+  opacity: 0.55;
+}
+
+.modal-body .layerum-button.ghost {
+  background: var(--app-control);
+  border: 1px solid rgba(var(--app-border-rgb), 0.2);
+  color: var(--app-text-secondary);
+}
+
+.modal-body .layerum-button.ghost:hover {
+  background: var(--app-control-hover);
+}
+
+.modal-body .layerum-button.danger {
+  border: 1px solid transparent;
+  background: #d11943;
+  color: #fff;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+  box-shadow: none;
+}
+
+.modal-body .layerum-button.danger:hover {
+  filter: none;
+  background: #be163c;
+}
+
+.modal-body .layerum-button.danger:active {
+  background: #a81234;
+}
+
+.modal-body .layerum-button.danger:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(var(--app-bg-rgb), 0.92),
+    0 0 0 4px rgba(209, 25, 67, 0.7);
+}
+
+.modal-body .layerum-button.danger:disabled {
+  opacity: 0.55;
+}
+
+.modal-body code {
+  color: var(--app-accent-soft);
+  background: rgba(var(--app-accent-rgb), 0.12);
+  border: 1px solid rgba(var(--app-accent-rgb), 0.2);
+  border-radius: 6px;
+  padding: 1px 5px;
+}
+
+@media (max-width: 820px) {
+  .modal-overlay {
+    align-items: start;
+    padding: 48px 12px 12px;
+  }
+
+  .modal-shell {
+    width: min(480px, 100%);
+    transform-origin: top center;
+    animation-name: modal-panel-drop;
+  }
+
+  .modal-panel {
+    max-height: calc(100dvh - 80px);
+  }
+
+  .modal-header {
+    padding: 12px 12px 11px 16px;
+  }
+
+  .modal-title {
+    font-size: 14.5px;
+  }
+
+  .modal-body {
+    padding: 16px;
+    max-height: calc(100dvh - 80px - 52px);
+  }
+}
+
+@keyframes modal-panel-drop {
+  from { opacity: 0; transform: translateY(-10px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}

@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "Anmelden",
+    "signup": "Registrieren"
+  },
+  "hero": {
+    "title": "Konto erstellen",
+    "description": "Initialisieren Sie Ihren Architektur-Workspace."
+  },
+  "oauth": {
+    "github": "Mit GitHub fortfahren",
+    "google": "Mit Google fortfahren"
+  },
+  "divider": "Oder mit Zugangsdaten fortfahren",
+  "form": {
+    "fullNameLabel": "Vollständiger Name",
+    "fullNamePlaceholder": "Max Mustermann",
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Mindestens 8 Zeichen",
+    "submit": "Konto erstellen",
+    "submitting": "Konto wird erstellt..."
+  },
+  "states": {
+    "preparing": "Registrierung wird vorbereitet...",
+    "redirecting": "Weiterleitung..."
+  },
+  "messages": {
+    "validationError": "Geben Sie einen gültigen vollständigen Namen und ein Passwort mit mindestens 8 Zeichen ein.",
+    "successEmail": "Überprüfen Sie Ihren Posteingang, um Ihre E-Mail zu bestätigen, und melden Sie sich anschließend an.",
+    "successAccount": "Konto erstellt"
+  },
+  "terms": {
+    "prefix": "Bereits Zugriff?",
+    "link": "Sitzung authentifizieren"
+  },
+  "side": {
+    "scopedAccess": "Eingeschränkter Zugriff",
+    "scopedAccessDesc": "Workspace-API-Schlüssel unterstützen Fähigkeits- und Bereichskontrollen.",
+    "hostedApi": "Gehostete API",
+    "hostedApiDesc": "Integrieren Sie über die öffentliche /v1-API oder das offizielle SDK."
+  }
+}

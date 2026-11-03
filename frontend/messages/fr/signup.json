@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "Se connecter",
+    "signup": "S’inscrire"
+  },
+  "hero": {
+    "title": "Créer un compte",
+    "description": "Initialisez votre espace de travail d’architecture."
+  },
+  "oauth": {
+    "github": "Continuer avec GitHub",
+    "google": "Continuer avec Google"
+  },
+  "divider": "Ou continuer avec des identifiants",
+  "form": {
+    "fullNameLabel": "Nom complet",
+    "fullNamePlaceholder": "Jean Dupont",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Au moins 8 caractères",
+    "submit": "Créer le compte",
+    "submitting": "Création du compte..."
+  },
+  "states": {
+    "preparing": "Préparation de l’inscription...",
+    "redirecting": "Redirection..."
+  },
+  "messages": {
+    "validationError": "Entrez un nom valide et un mot de passe d’au moins 8 caractères.",
+    "successEmail": "Vérifiez votre boîte mail pour confirmer votre e-mail, puis connectez-vous.",
+    "successAccount": "Compte créé"
+  },
+  "terms": {
+    "prefix": "Vous avez déjà accès ?",
+    "link": "Se connecter"
+  },
+  "side": {
+    "scopedAccess": "Accès limité",
+    "scopedAccessDesc": "Les clés API du workspace permettent le contrôle des capacités et des accès.",
+    "hostedApi": "API hébergée",
+    "hostedApiDesc": "Intégrez via l’API publique /v1 ou le SDK officiel."
+  }
+}

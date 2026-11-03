@@ -1,0 +1,11 @@
+{
+  "brand": "Layerum",
+  "engineeringIntelligence": "Intelligence d'ingénierie.",
+  "copyright": "© {year} Layerum. Intelligence d'ingénierie.",
+  "metadata": {
+    "title": "Layerum",
+    "description": "Layerum est une plateforme RAG centrée sur le contrôle pour les équipes de production. Gardez l'accès par espace de travail, l'ingestion de documents, la recherche et la gouvernance alignés via des flux API et SDK.",
+    "authTitle": "Accès au compte",
+    "authDescription": "Connectez-vous ou créez un compte pour gérer les espaces de travail, les documents et l'accès API de Layerum."
+  }
+}

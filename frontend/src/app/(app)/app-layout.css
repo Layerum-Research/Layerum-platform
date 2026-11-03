@@ -1,0 +1,170 @@
+.app-theme-scope {
+  min-height: 100vh;
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+.app-theme-scope[data-theme='light'] {
+  --app-bg: #ffffff;
+  --app-surface: #f6f8fc;
+  --app-surface-2: #ffffff;
+  --app-control: #eef2f7;
+  --app-control-hover: #e5ebf4;
+  --app-border: #d6deea;
+  --app-divider: #c7d2e2;
+
+  --app-text: #131722;
+  --app-text-secondary: #3b4251;
+  --app-text-muted: #5f6a7a;
+  --app-text-faint: #768397;
+
+  --app-accent: #6a7eff;
+  --app-accent-strong: #4f66f5;
+  --app-accent-soft: #8e9dff;
+  --app-accent-contrast: #0b1e79;
+
+  --app-bg-rgb: 255, 255, 255;
+  --app-border-rgb: 184, 195, 214;
+  --app-accent-rgb: 122, 142, 255;
+}
+
+html[data-app-theme='light'] .app-theme-scope {
+  --app-bg: #ffffff;
+  --app-surface: #f6f8fc;
+  --app-surface-2: #ffffff;
+  --app-control: #eef2f7;
+  --app-control-hover: #e5ebf4;
+  --app-border: #d6deea;
+  --app-divider: #c7d2e2;
+
+  --app-text: #131722;
+  --app-text-secondary: #3b4251;
+  --app-text-muted: #5f6a7a;
+  --app-text-faint: #768397;
+
+  --app-accent: #6a7eff;
+  --app-accent-strong: #4f66f5;
+  --app-accent-soft: #8e9dff;
+  --app-accent-contrast: #0b1e79;
+
+  --app-bg-rgb: 255, 255, 255;
+  --app-border-rgb: 184, 195, 214;
+  --app-accent-rgb: 122, 142, 255;
+}
+
+.app-theme-scope .layerum-input,
+.app-theme-scope .layerum-select,
+.app-theme-scope .layerum-textarea,
+.app-theme-scope .layerum-select-trigger {
+  background: var(--app-surface-2);
+  border-color: rgba(var(--app-border-rgb), 0.35);
+  color: var(--app-text);
+}
+
+.app-theme-scope .layerum-input:hover,
+.app-theme-scope .layerum-select:hover,
+.app-theme-scope .layerum-textarea:hover,
+.app-theme-scope .layerum-select-trigger:hover {
+  border-color: rgba(var(--app-border-rgb), 0.55);
+}
+
+.app-theme-scope .layerum-select-chevron {
+  color: var(--app-text-faint);
+}
+
+/* ---- Console density system: shared page frame + primitives ---- */
+
+.app-theme-scope .layerum-page {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+.app-theme-scope .layerum-page h1 {
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+}
+
+.app-theme-scope .layerum-page h2 {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 650;
+}
+
+.app-theme-scope .layerum-page > div[class$='-content'],
+.app-theme-scope .layerum-page > main[class$='-content'] {
+  gap: 16px;
+}
+
+.app-theme-scope .layerum-card {
+  background: var(--app-surface);
+  border: 1px solid rgba(var(--app-border-rgb), 0.16);
+  border-radius: 10px;
+}
+
+.app-theme-scope .layerum-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 6px 13px;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--app-border-rgb), 0.3);
+  background: var(--app-control);
+  color: var(--app-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.app-theme-scope .layerum-button:hover {
+  background: var(--app-control-hover);
+  border-color: rgba(var(--app-border-rgb), 0.5);
+}
+
+.app-theme-scope .layerum-button.ghost {
+  background: transparent;
+  border-color: rgba(var(--app-border-rgb), 0.3);
+  color: var(--app-text-secondary);
+}
+
+.app-theme-scope .layerum-button.ghost:hover {
+  background: rgba(var(--app-border-rgb), 0.16);
+}
+
+.app-theme-scope .layerum-button.danger {
+  background: #d11943;
+  border-color: transparent;
+  color: #fff;
+  font-weight: 650;
+}
+
+.app-theme-scope .layerum-button.danger:hover {
+  background: #be163c;
+}
+
+.app-theme-scope .layerum-input,
+.app-theme-scope .layerum-select,
+.app-theme-scope .layerum-textarea {
+  min-height: 34px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.app-theme-scope .layerum-form-label {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.app-theme-scope .layerum-form-hint {
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+

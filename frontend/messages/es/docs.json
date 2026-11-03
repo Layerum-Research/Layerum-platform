@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Docs",
+    "breadcrumbActive": "Comenzando",
+    "title": "Guía rápida",
+    "description": "Empieza con claves API, luego usa SDK o llamadas directas."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "Claves API",
+      "desc": "Crea y gestiona claves API del workspace."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Usa el SDK para entidades e ingesta."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Explora endpoints /v1 públicos."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Instalación",
+      "desc": "Instala el SDK desde npm."
+    },
+    "client": {
+      "title": "Inicializar cliente",
+      "desc": "Inicializa LayerumClient con tu API key."
+    },
+    "mcpCli": {
+      "title": "MCP y CLI",
+      "desc": "Usa Layerum desde una terminal o un asistente de IA. La CLI y el servidor MCP inician sesión con tu propia cuenta de Layerum mediante OAuth, por lo que son para personas y asistentes de IA. El SDK usa claves de API del workspace (lyr_wk_*) y es para integraciones de servidor.",
+      "install": {
+        "title": "Instalación",
+        "desc": "Instala la CLI de forma global. Requiere Node 20 o superior."
+      },
+      "signIn": {
+        "title": "Iniciar sesión",
+        "desc": "Configura las URL de tu servidor de Layerum y luego inicia sesión. layerum login abre tu navegador e inicia sesión con OAuth. En SSH o en un contenedor, usa layerum login --code: abre la URL mostrada en cualquier dispositivo, autoriza y pega el código."
+      },
+      "assistants": {
+        "title": "Conectar un asistente de IA",
+        "desc": "Registra el servidor MCP en tu asistente. El asistente inicia sesión con su herramienta login la primera vez que necesita Layerum. Claude Code:",
+        "othersDesc": "Otros clientes MCP: añade esto a la configuración MCP del cliente. Funciona con clientes que aceptan el formato mcpServers, como Cursor y Claude Desktop."
+      },
+      "reference": "Abrir la referencia completa de MCP y CLI"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "¿Necesitas sandbox?",
+      "desc": "Prueba el playground interactivo.",
+      "link": "Abrir Playground"
+    },
+    "concepts": {
+      "title": "Conceptos",
+      "desc": "Entiende la arquitectura base.",
+      "link": "Conceptos clave"
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "Dokumentation",
+    "current": "Konzepte"
+  },
+  "hero": {
+    "title": "Plattform-Konzepte",
+    "description": "Layerum ist für produktives RAG entwickelt: strukturierte Workspaces, sicherer API-Key-Zugriff, zuverlässige Ingestion und kontrollierbare Kapazität vom Upload bis zur Abfrage."
+  },
+  "sidebar": {
+    "title": "Auf dieser Seite",
+    "ariaLabel": "Abschnitte",
+    "links": [
+      { "href": "#what-layerum-is", "label": "Was ist Layerum" },
+      { "href": "#workspace-model", "label": "Workspace-Modell" },
+      { "href": "#data-model", "label": "Datenmodell" },
+      { "href": "#ingestion-lifecycle", "label": "Ingestion-Lebenszyklus" },
+      { "href": "#capacity-control", "label": "Kapazitätskontrolle" },
+      { "href": "#security-governance", "label": "Sicherheit und Governance" },
+      { "href": "#retrieval-quality", "label": "Retrieval-Qualität" },
+      { "href": "#developer-experience", "label": "Developer Experience" },
+      { "href": "#operations", "label": "Betrieb und Zuverlässigkeit" },
+      { "href": "#use-cases", "label": "Typische Anwendungsfälle" },
+      { "href": "#start", "label": "Erste Schritte" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "Was ist Layerum",
+      "paragraph": "Layerum ist eine gehostete RAG-Plattform für Teams, die Wissen ingestieren, Zugriff über Workspaces steuern und zuverlässige Antworten über API oder SDK bereitstellen müssen.",
+      "bullets": [
+        "API-Endpoint: {apiBaseUrl}.",
+        "Öffentliche API-Struktur: /v1/*.",
+        "Authentifizierung: Workspace-API-Keys (lyr_wk_...)."
+      ]
+    },
+    "workspaceModel": {
+      "title": "Workspace-Modell",
+      "paragraph": "Jedes Team arbeitet in isolierten Workspaces. Berechtigungen, Modelle, Entitäten, Dokumente und API-Keys werden auf Workspace-Ebene verwaltet.",
+      "bullets": [
+        "Mehrere Workspaces pro Account je nach Tarif.",
+        "Teammitglieder, Rollen und operative Grenzen bleiben innerhalb eines Workspaces.",
+        "API-Keys können auf Entitäten und Modellkonfigurationen eingeschränkt werden."
+      ]
+    },
+    "dataModel": {
+      "title": "Datenmodell",
+      "paragraph": "Wissen wird so organisiert, dass sowohl Governance als auch präzises Retrieval unterstützt werden.",
+      "bullets": [
+        "Entity Types definieren übergeordnete Kategorien.",
+        "Entities bilden Hierarchie und Retrieval-Kontext.",
+        "Dokumente sind Entitäten zugeordnet und werden in Chunks/Vektoren indexiert."
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "Ingestion-Lebenszyklus",
+      "paragraph": "Dokumente durchlaufen einen klar definierten Prozess: Upload, Parsing, Chunking, Embedding, Indexierung und Statusverfolgung.",
+      "bullets": [
+        "Kleine Dateien: direkter Multipart-Upload.",
+        "Große Dateien: presigned Flow (init → S3 POST → complete).",
+        "Status: pending, processing, completed, failed.",
+        "SDK-Helfer ingestion.waitUntilReady übernimmt Polling."
+      ]
+    },
+    "capacityControl": {
+      "title": "Kapazitätskontrolle",
+      "paragraph": "Kapazität ist kontoabhängig und wird dynamisch auf Workspaces verteilt. Durchsetzung erfolgt serverseitig.",
+      "bullets": [
+        "Gezählt: Entitäten, Dokumentgröße, Chunks, S3-Dateien, Upload-Reservierungen.",
+        "Nicht gezählt: Logs, API-Key-Metadaten, Modell-Metadaten.",
+        "Uploads sind abgesichert: Reservierung, Validierung, Cleanup."
+      ]
+    },
+    "securityGovernance": {
+      "title": "Sicherheit und Governance",
+      "paragraph": "Zugriff ist explizit, granular und jederzeit widerrufbar.",
+      "bullets": [
+        "API-Keys werden nur im UI erstellt.",
+        "Capabilities: query:read, data:ingest, config:manage.",
+        "Kontrollen: Scope, Limits, Ablaufdatum.",
+        "Rotation und Widerruf wirken sofort."
+      ]
+    },
+    "retrievalQuality": {
+      "title": "Retrieval-Qualität",
+      "paragraph": "Abfragen liefern kontrollierbare und nachvollziehbare Antworten.",
+      "bullets": [
+        "Entity-Scopes halten Kontext relevant.",
+        "Top-K und Parent-Scopes steuern Breite.",
+        "Zitate ermöglichen Rückverfolgbarkeit.",
+        "Debug-Endpoint für Analyse."
+      ]
+    },
+    "developerExperience": {
+      "title": "Developer Experience",
+      "paragraph": "Integration über SDK oder HTTP mit identischem API-Vertrag.",
+      "bullets": [
+        "SDK: @layerum-team/rag-sdk.",
+        "API: {apiBaseUrl}/v1.",
+        "Gleiche Auth- und Limit-Logik."
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: 'Summarize key risks and actions'\n});"
+    },
+    "operations": {
+      "title": "Betrieb und Zuverlässigkeit",
+      "paragraph": "Fokus auf stabile Produktion und nachvollziehbare Fehler.",
+      "bullets": [
+        "Fehler werden persistiert.",
+        "Retry-Endpunkte vorhanden.",
+        "Indexierung folgt Dokument-Lifecycle.",
+        "Kapazitätschecks verhindern Overuse."
+      ]
+    },
+    "useCases": {
+      "title": "Typische Anwendungsfälle",
+      "bullets": [
+        "Support-Knowledge-Assistenten.",
+        "Interne Dokumentensuche.",
+        "Compliance-Abfragen mit Zitaten.",
+        "Team-spezifische Copilots."
+      ]
+    },
+    "start": {
+      "title": "Erste Schritte",
+      "bullets": [
+        "1. Workspace erstellen.",
+        "2. API-Key erzeugen.",
+        "3. Entitäten & Dokumente anlegen.",
+        "4. Nach Ingestion Queries ausführen."
+      ],
+      "paragraph": "Siehe Referenz für Details.",
+      "referenceLinkLabel": "Referenz"
+    }
+  }
+}

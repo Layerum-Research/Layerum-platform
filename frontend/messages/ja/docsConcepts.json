@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "ドキュメント",
+    "current": "コンセプト"
+  },
+  "hero": {
+    "title": "プラットフォームのコンセプト",
+    "description": "Layerumは本番環境向けRAGのために設計されています：構造化されたワークスペース、安全なAPIアクセス、信頼性の高いインジェスト、アップロードからクエリまでの予測可能な容量管理。"
+  },
+  "sidebar": {
+    "title": "このページ",
+    "ariaLabel": "コンセプトセクション",
+    "links": [
+      { "href": "#what-layerum-is", "label": "Layerumとは" },
+      { "href": "#workspace-model", "label": "ワークスペースモデル" },
+      { "href": "#data-model", "label": "データモデル" },
+      { "href": "#ingestion-lifecycle", "label": "インジェストライフサイクル" },
+      { "href": "#capacity-control", "label": "容量管理" },
+      { "href": "#security-governance", "label": "セキュリティとガバナンス" },
+      { "href": "#retrieval-quality", "label": "検索品質" },
+      { "href": "#developer-experience", "label": "開発者体験" },
+      { "href": "#operations", "label": "運用と信頼性" },
+      { "href": "#use-cases", "label": "主なユースケース" },
+      { "href": "#start", "label": "始め方" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "Layerumとは",
+      "paragraph": "Layerumは、知識の取り込み、ワークスペース単位でのアクセス制御、APIまたはSDKを通じた信頼性の高い回答提供を必要とするチーム向けのホスト型RAGプラットフォームです。",
+      "bullets": [
+        "APIエンドポイント: {apiBaseUrl}。",
+        "公開インターフェース: /v1/*。",
+        "認証: ワークスペースAPIキー (lyr_wk_...)。"
+      ]
+    },
+    "workspaceModel": {
+      "title": "ワークスペースモデル",
+      "paragraph": "各チームは分離されたワークスペースで作業します。権限、モデル、エンティティ、ドキュメント、APIキーはすべてワークスペース単位で管理されます。",
+      "bullets": [
+        "プランに応じて複数のワークスペースを利用可能。",
+        "メンバー、役割、運用境界はワークスペース内で完結。",
+        "APIキーはエンティティやモデル設定ごとにスコープ制御可能。"
+      ]
+    },
+    "dataModel": {
+      "title": "データモデル",
+      "paragraph": "知識はガバナンスと検索精度の両方を支えるように構造化されています。",
+      "bullets": [
+        "エンティティタイプが上位カテゴリを定義。",
+        "エンティティが階層構造と検索範囲を形成。",
+        "ドキュメントはエンティティに紐づき、チャンク／ベクトルとしてインデックス化。"
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "インジェストライフサイクル",
+      "paragraph": "ドキュメントは予測可能なフローで処理されます：アップロード → 解析 → チャンク分割 → 埋め込み → インデックス化 → ステータス管理。",
+      "bullets": [
+        "小さいファイル: API経由のmultipart直接アップロード。",
+        "大きいファイル: 署名付きフロー (upload/init → S3 POST → upload/complete)。",
+        "ステータス: pending, processing, completed, failed。",
+        "SDKの ingestion.waitUntilReady により完了までポーリング。"
+      ]
+    },
+    "capacityControl": {
+      "title": "容量管理",
+      "paragraph": "容量はプランに基づきアカウント単位で管理され、ワークスペース間で動的に配分されます。UI、API、SDKすべてでサーバー側で強制されます。",
+      "bullets": [
+        "計測対象: エンティティ数、ドキュメントサイズ、チャンク数、S3ファイル、保留中アップロード。",
+        "非計測: ログ、APIキーやモデルのメタデータ。",
+        "署名付きアップロードは検証・制御・古いセッションのクリーンアップを実施。"
+      ]
+    },
+    "securityGovernance": {
+      "title": "セキュリティとガバナンス",
+      "paragraph": "アクセスは明示的で、スコープ管理され、いつでも無効化できます。",
+      "bullets": [
+        "APIキーはLayerumのUIで作成・管理。",
+        "権限モデル: query:read, data:ingest, config:manage。",
+        "制御: エンティティ／モデルスコープ、RPM制限、日次トークン制限、有効期限。",
+        "ローテーションや無効化は即時反映され、構成変更不要。"
+      ]
+    },
+    "retrievalQuality": {
+      "title": "検索品質",
+      "paragraph": "クエリ処理は単なる生成ではなく、制御可能かつ説明可能な回答を目的としています。",
+      "bullets": [
+        "エンティティ単位での検索スコープ制御。",
+        "Top-Kや親スコープで検索範囲を調整。",
+        "引用により回答の出典を追跡可能。",
+        "デバッグ用エンドポイントで詳細分析が可能。"
+      ]
+    },
+    "developerExperience": {
+      "title": "開発者体験",
+      "paragraph": "型付きSDKまたはHTTPを使用して同一の公開インターフェースで統合できます。",
+      "bullets": [
+        "SDK: @layerum-team/rag-sdk。",
+        "APIベースURL: {apiBaseUrl}/v1。",
+        "認証と制限モデルは共通。"
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: '主要なリスクと対応策を要約してください'\n});"
+    },
+    "operations": {
+      "title": "運用と信頼性",
+      "paragraph": "本番環境での安定性と可観測性を重視しています。",
+      "bullets": [
+        "インジェストエラーは保存され、API/SDKで取得可能。",
+        "リトライ用エンドポイントで確定的な復旧。",
+        "ベクトルインデックスはドキュメントのライフサイクルと連動。",
+        "容量チェックにより過剰なストレージ増加を防止。"
+      ]
+    },
+    "useCases": {
+      "title": "主なユースケース",
+      "bullets": [
+        "社内向けカスタマーサポートアシスタント。",
+        "部門横断のドキュメント検索。",
+        "引用付きコンプライアンス検索。",
+        "特定ドメインに接続されたチーム向けコパイロット。"
+      ]
+    },
+    "start": {
+      "title": "始め方",
+      "bullets": [
+        "1. ワークスペースを作成しモデルを設定。",
+        "2. APIキーを作成し権限を設定。",
+        "3. エンティティ構造を作成しドキュメントをアップロード。",
+        "4. インジェスト完了後、SDKまたはAPIでクエリ実行。"
+      ],
+      "paragraph": "詳細なエンドポイントとメソッドはReferenceを参照してください。",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}

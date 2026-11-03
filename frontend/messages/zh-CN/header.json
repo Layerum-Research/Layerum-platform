@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "文档",
+    "license": "许可证"
+  },
+  "actions": {
+    "signIn": "登录",
+    "getStarted": "开始使用"
+  },
+  "language": {
+    "label": "语言"
+  },
+  "aria": {
+    "primaryNav": "主导航",
+    "mobileNav": "移动端导航"
+  },
+  "theme": {
+    "toggle": "切换主题"
+  },
+  "menu": {
+    "label": "菜单",
+    "open": "打开菜单",
+    "close": "关闭菜单"
+  }
+}

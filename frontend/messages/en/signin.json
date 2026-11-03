@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "signin": "Sign In",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "Welcome Back",
+    "description": "Continue your architectural journey."
+  },
+  "oauth": {
+    "github": "Continue with GitHub",
+    "google": "Continue with Google"
+  },
+  "divider": "Or execute via credentials",
+  "form": {
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "Forgot?",
+    "forgotSend": "Send Reset Link",
+    "forgotSending": "Sending...",
+    "forgotBack": "Back to Sign In",
+    "forgotSuccess": "Check your inbox for a password reset link.",
+    "submit": "Authenticate Session",
+    "submitting": "Authenticating..."
+  },
+  "states": {
+    "preparing": "Preparing sign in...",
+    "redirecting": "Redirecting..."
+  },
+  "side": {
+    "scopedAccess": "Scoped Access",
+    "scopedAccessDesc": "Workspace API keys support capability and scope controls.",
+    "hostedApi": "Hosted API",
+    "hostedApiDesc": "Integrate through the public /v1 API or the official SDK."
+  }
+}

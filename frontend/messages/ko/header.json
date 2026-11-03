@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "문서",
+    "license": "라이선스"
+  },
+  "actions": {
+    "signIn": "로그인",
+    "getStarted": "시작하기"
+  },
+  "language": {
+    "label": "언어"
+  },
+  "aria": {
+    "primaryNav": "주요 탐색",
+    "mobileNav": "모바일 탐색"
+  },
+  "theme": {
+    "toggle": "테마 전환"
+  },
+  "menu": {
+    "label": "메뉴",
+    "open": "메뉴 열기",
+    "close": "메뉴 닫기"
+  }
+}

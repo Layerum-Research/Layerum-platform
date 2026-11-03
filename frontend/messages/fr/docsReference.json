@@ -1,0 +1,284 @@
+{
+  "breadcrumb": {
+    "docs": "Docs",
+    "current": "Reference"
+  },
+  "hero": {
+    "title": "Complete Documentation",
+    "description": "API keys, SDK, and Public API reference for Layerum integrations."
+  },
+  "sidebar": {
+    "title": "On this page",
+    "ariaLabel": "Documentation sections",
+    "links": [
+      { "href": "#api-keys", "label": "API Keys" },
+      { "href": "#api-keys-limits", "label": "Capabilities, Scopes, Limits" },
+      { "href": "#sdk", "label": "SDK" },
+      { "href": "#sdk-client", "label": "SDK Client Options" },
+      { "href": "#sdk-errors", "label": "SDK Error Handling" },
+      { "href": "#sdk-entities", "label": "SDK Entities" },
+      { "href": "#sdk-entity-types", "label": "SDK Entity Types" },
+      { "href": "#sdk-documents", "label": "SDK Documents" },
+      { "href": "#sdk-ingestion", "label": "SDK Ingestion" },
+      { "href": "#sdk-query", "label": "SDK Query" },
+      { "href": "#sdk-models", "label": "SDK Models" },
+      { "href": "#sdk-providers", "label": "SDK Providers" },
+      { "href": "#api-public", "label": "Public API (/v1)" },
+      { "href": "#api-error", "label": "API Error Format" },
+      { "href": "#api-public-entities", "label": "Public Entities" },
+      { "href": "#api-public-entity-types", "label": "Public Entity Types" },
+      { "href": "#api-public-documents", "label": "Public Documents" },
+      { "href": "#api-public-models", "label": "Public Models" },
+      { "href": "#api-public-providers", "label": "Public Providers" },
+      { "href": "#api-public-query", "label": "Public Query" },
+      { "href": "#capacity", "label": "Capacity and Upload Model" }
+    ]
+  },
+  "endpointCard": {
+    "queryTitle": "Query",
+    "bodyTitle": "Body",
+    "notesTitle": "Notes"
+  },
+  "endpointGroups": {
+    "publicEntities": [
+      { "method": "GET", "path": "/v1/entities" },
+      { "method": "GET", "path": "/v1/entities/tree" },
+      {
+        "method": "POST",
+        "path": "/v1/entities",
+        "body": [
+          "entity_type_id (uuid, required)",
+          "name (string, required, max 200)",
+          "description (string, optional)",
+          "parent_id (uuid, optional)",
+          "metadata (object, optional)"
+        ],
+        "notes": [
+          "Scoped API keys cannot create root entities unless scope allows it."
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entities/:id" }
+    ],
+    "publicEntityTypes": [
+      { "method": "GET", "path": "/v1/entity-types" },
+      { "method": "GET", "path": "/v1/entity-types/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entity-types",
+        "body": [
+          "name (string, required, max 50)",
+          "label (string, required, max 100)"
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entity-types/:id" }
+    ],
+    "publicDocuments": [
+      { "method": "GET", "path": "/v1/entities/:entityId/documents" },
+      { "method": "GET", "path": "/v1/documents" },
+      { "method": "GET", "path": "/v1/entities/:entityId/documents/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents",
+        "body": [
+          "source_type (\"file\" | \"url\" | \"text\" | \"api\", required)",
+          "display_name (string, required)",
+          "source_url (string, optional)",
+          "raw_text (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload",
+        "body": [
+          "multipart/form-data",
+          "file (required)",
+          "visibility (optional)",
+          "model_config_id (optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload/init",
+        "body": [
+          "file_name (string, required)",
+          "file_size_bytes (int >= 1, required)",
+          "content_type (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload/complete",
+        "body": [
+          "upload_id (uuid, required)",
+          "display_name (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)",
+          "checksum (string, optional)"
+        ],
+        "notes": [
+          "Uploaded object size must exactly match file_size_bytes declared at upload/init."
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entities/:entityId/documents/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/:id/retry"
+      },
+      { "method": "GET", "path": "/v1/entities/:entityId/documents/:id/error" }
+    ],
+    "publicModels": [
+      { "method": "GET", "path": "/v1/models" },
+      { "method": "GET", "path": "/v1/models/:id" },
+      { "method": "POST", "path": "/v1/models" },
+      { "method": "PATCH", "path": "/v1/models/:id" },
+      { "method": "DELETE", "path": "/v1/models/:id" },
+      {
+        "method": "GET",
+        "path": "/v1/model-definitions",
+        "query": ["type (string, optional)"]
+      }
+    ],
+    "publicProviders": [
+      { "method": "GET", "path": "/v1/providers" },
+      { "method": "GET", "path": "/v1/providers/:id" },
+      { "method": "POST", "path": "/v1/providers" },
+      { "method": "POST", "path": "/v1/providers/:id/test" },
+      { "method": "DELETE", "path": "/v1/providers/:id" }
+    ],
+    "publicQuery": [
+      {
+        "method": "POST",
+        "path": "/v1/query",
+        "body": [
+          "entityId (uuid, required)",
+          "modelConfigId (uuid, required)",
+          "query (string, required)",
+          "topK (number 1..20, optional)",
+          "includeParentScopes (boolean, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/query/debug",
+        "body": [
+          "entityId (uuid, required)",
+          "modelConfigId (uuid, required)",
+          "query (string, required)",
+          "topK (number 1..20, optional)",
+          "includeParentScopes (boolean, optional)"
+        ],
+        "notes": ["Returns additional debug metadata when backend provides it."]
+      }
+    ]
+  },
+  "cli": {
+    "nav": {
+      "overview": "MCP et CLI",
+      "auth": "Authentification de la CLI",
+      "workspace": "Sélection du workspace dans la CLI",
+      "commands": "Commandes de la CLI",
+      "mcp": "Configuration de MCP",
+      "tools": "Outils MCP",
+      "env": "Environnement de la CLI",
+      "troubleshooting": "Dépannage de la CLI"
+    },
+    "overview": {
+      "title": "MCP et CLI",
+      "paragraph": "<c>@layerum-team/cli</c> est un outil en ligne de commande et un serveur MCP. Il se connecte avec votre propre compte Layerum via OAuth et agit en votre nom : utilisez-le pour les personnes et les assistants IA. Pour les intégrations serveur, utilisez le SDK ou l'API publique avec une clé d'API de workspace (<c>lyr_wk_*</c>).",
+      "requirement": "Nécessite Node 20 ou plus récent."
+    },
+    "auth": {
+      "title": "Authentification de la CLI",
+      "browser": "Flux navigateur : <c>layerum login</c> ouvre votre navigateur, vous autorisez, et la CLI reçoit le jeton via une redirection locale. Elle attend jusqu'à 5 minutes.",
+      "code": "Flux par code : <c>layerum login --code</c> affiche une URL. Ouvrez-la sur n'importe quel appareil, autorisez, puis collez le code affiché par la page. Le code est valable 5 minutes. Utilisez-le sur SSH, dans des conteneurs ou partout où la redirection locale ne peut pas fonctionner. Un terminal interactif est requis.",
+      "autoWorkspace": "Si vous appartenez à un seul workspace, il est sélectionné automatiquement après la connexion. Sinon, choisissez-en un avec <c>layerum use</c>.",
+      "credentials": "Les identifiants sont stockés dans <c>~/.config/layerum/credentials.json</c> (<c>$XDG_CONFIG_HOME/layerum</c> si défini ; <c>%APPDATA%\\layerum</c> sous Windows). Sous macOS et Linux, le dossier est créé avec le mode 700 et les fichiers avec le mode 600. Le workspace sélectionné est enregistré dans <c>config.json</c>, dans le même dossier.",
+      "lifetime": "Le jeton est valable 90 jours. Ensuite, relancez <c>layerum login</c>.",
+      "logout": "<c>layerum logout</c> révoque le jeton côté serveur et supprime les identifiants locaux ainsi que le workspace enregistré. Si la révocation côté serveur échoue, la CLI l'indique et le jeton peut rester valide jusqu'à son expiration. Vous pouvez aussi révoquer l'accès à tout moment dans Compte, Applications connectées.",
+      "permissions": "Le jeton agit en votre nom : ce qu'il peut faire dans un workspace dépend de votre rôle.",
+      "canTitle": "Le jeton peut :",
+      "can1": "Afficher votre profil et les workspaces auxquels vous appartenez.",
+      "can2": "Lire les entités, les documents et les modèles, y compris les configurations de modèles.",
+      "can3": "Ajouter des documents et créer des entités.",
+      "can4": "Supprimer les documents que vous pouvez gérer.",
+      "can5": "Exécuter des requêtes.",
+      "cannotTitle": "Le jeton ne peut pas :",
+      "cannot1": "Gérer votre compte, par exemple le mot de passe et l'authentification à deux facteurs.",
+      "cannot2": "Gérer les paramètres du workspace : membres, rôles, clés d'API et fournisseurs.",
+      "cannot3": "Supprimer des workspaces."
+    },
+    "workspace": {
+      "title": "Sélection du workspace dans la CLI",
+      "intro": "Le workspace d'une commande est choisi dans cet ordre :",
+      "flag": "L'option <c>{wsFlag}</c>.",
+      "env": "La variable d'environnement <c>LAYERUM_WORKSPACE</c>.",
+      "saved": "Le workspace enregistré avec <c>{useCmd}</c> (id, nom ou slug).",
+      "mcp": "Les outils MCP suivent le même ordre, avec l'argument facultatif <c>workspace_id</c> à la place de l'option."
+    },
+    "commands": {
+      "title": "Commandes de la CLI",
+      "global": "Options globales : <c>--json</c> affiche le JSON brut ; <c>{wsFlag}</c> remplace le workspace par défaut pour une commande.",
+      "colCommand": "Commande",
+      "colDescription": "Description",
+      "login": "Se connecter. <c>--force</c> reconnecte même si vous êtes déjà connecté. <c>--code</c> utilise le flux par code.",
+      "logout": "Révoquer le jeton et supprimer les identifiants locaux.",
+      "whoami": "Afficher l'utilisateur connecté.",
+      "workspaces": "Lister les workspaces. Le workspace actuel est marqué d'un <c>*</c>.",
+      "use": "Définir le workspace par défaut par id, nom ou slug.",
+      "entities": "Lister les entités sous forme d'arbre, ou de tableau plat avec <c>--flat</c>.",
+      "models": "Lister les configurations de modèles.",
+      "documentsList": "Lister les documents du workspace ou d'une entité.",
+      "documentsAdd": "Ajouter un document. Passez exactement une option parmi <c>--text</c>, <c>--url</c> ou <c>--file</c>. <c>--name</c> définit le nom affiché. <c>--wait</c> attend la fin de l'ingestion (jusqu'à 5 minutes).",
+      "documentsGet": "Afficher un document et son statut d'ingestion.",
+      "documentsDelete": "Supprimer définitivement un document. <c>--yes</c> est obligatoire pour confirmer.",
+      "query": "Poser une question sur une entité. <c>--model</c> choisit une configuration de modèle (par défaut, celle du workspace). <c>--top-k</c> définit le nombre de segments à récupérer (de 1 à 20). Affiche la réponse et les sources numérotées.",
+      "mcp": "Démarrer le serveur MCP sur stdio."
+    },
+    "mcp": {
+      "title": "Configuration de MCP",
+      "intro": "<c>layerum mcp</c> démarre un serveur MCP sur stdio. Enregistrez-le dans Claude Code :",
+      "others": "Pour les autres clients MCP, ajoutez ceci à la configuration du client. Cela fonctionne avec les clients qui acceptent le format <c>mcpServers</c>, comme Cursor et Claude Desktop :",
+      "login": "Lorsque l'assistant n'est pas connecté, il appelle l'outil <c>login</c>. Avec la méthode par défaut <c>browser</c>, l'outil ouvre la page de connexion et se termine lorsque vous avez fini. Avec la méthode <c>code</c>, il renvoie une URL ; autorisez-y l'accès, donnez le code à l'assistant, qui appelle <c>complete_login</c> dans les 10 minutes. Utilisez <c>code</c> lorsque le flux navigateur échoue ou que le serveur tourne sur une autre machine que votre navigateur."
+    },
+    "tools": {
+      "title": "Outils MCP",
+      "colTool": "Outil",
+      "colInputs": "Entrées",
+      "colDescription": "Description",
+      "note": "Les outils qui travaillent sur les données du workspace acceptent un <c>workspace_id</c> facultatif. Les entrées sans point d'interrogation sont obligatoires. MCP n'a aucun outil de suppression : les documents ne peuvent être supprimés qu'avec la CLI.",
+      "login": "Se connecter. <c>method</c> vaut <c>browser</c> (par défaut) ou <c>code</c>, à terminer avec <c>complete_login</c>. <c>force</c> reconnecte.",
+      "completeLogin": "Terminer une connexion lancée avec la méthode <c>code</c> à l'aide du code affiché dans le navigateur.",
+      "whoami": "Afficher l'utilisateur connecté et l'id du workspace sélectionné.",
+      "listWorkspaces": "Lister vos workspaces avec id, nom, slug et rôle.",
+      "useWorkspace": "Sélectionner le workspace par défaut par id, nom exact ou slug.",
+      "listEntities": "Lister toutes les entités dans une liste plate avec id, nom, type, parent_id et profondeur.",
+      "listModels": "Lister les configurations de modèles. <c>query</c> utilise celle par défaut si aucun <c>model_config_id</c> n'est donné.",
+      "listDocuments": "Lister les documents avec id, nom, type, statut et entité. Le statut vaut pending, processing, completed ou failed ; seuls les documents completed peuvent être interrogés.",
+      "getDocument": "Obtenir les détails d'un document et son statut d'ingestion, avec le message d'erreur en cas d'échec.",
+      "addText": "Ajouter un document texte à une entité. L'ingestion s'exécute en arrière-plan.",
+      "addUrl": "Ajouter une page web à une entité par URL (http ou https). <c>name</c> vaut l'URL par défaut. L'ingestion s'exécute en arrière-plan.",
+      "query": "Poser une question sur une entité, y compris la portée de ses entités parentes. Renvoie la réponse et des citations numérotées. <c>top_k</c> va de 1 à 20."
+    },
+    "env": {
+      "title": "Environnement de la CLI",
+      "colVariable": "Variable",
+      "colDescription": "Description",
+      "appUrl": "URL de l'application web Layerum. Obligatoire pour la connexion.",
+      "apiUrl": "URL de l'API Layerum. Obligatoire pour la connexion.",
+      "workspace": "Workspace à utiliser. Remplace le workspace choisi avec <c>layerum use</c> ; l'option <c>--workspace</c> remplace cette variable.",
+      "xdg": "Dossier de base des identifiants et de la configuration sous macOS et Linux. Par défaut : <c>~/.config</c>.",
+      "appdata": "Dossier de base des identifiants et de la configuration sous Windows."
+    },
+    "troubleshooting": {
+      "title": "Dépannage de la CLI",
+      "notLoggedIn": "Non connecté, ou une requête renvoie 401 : exécutez <c>layerum login</c>. Le jeton a peut-être expiré ou été révoqué. Dans un client MCP, l'assistant doit appeler l'outil <c>login</c>.",
+      "noBrowser": "Le navigateur ne s'ouvre pas ou vous êtes sur une machine distante : exécutez <c>layerum login --code</c> et ouvrez l'URL affichée sur n'importe quel appareil.",
+      "noWorkspace": "Aucun workspace sélectionné : exécutez <c>layerum workspaces</c>, puis <c>{useCmd}</c>. Vous pouvez aussi définir <c>LAYERUM_WORKSPACE</c> ou passer <c>--workspace</c>.",
+      "malformed": "Le fichier d'identifiants est signalé comme mal formé : exécutez <c>layerum login --force</c>."
+    }
+  }
+}

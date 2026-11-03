@@ -1,0 +1,44 @@
+{
+  "tabs": {
+    "signin": "Sign In",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "Create Account",
+    "description": "Initialize your architecture workspace."
+  },
+  "oauth": {
+    "github": "Continue with GitHub",
+    "google": "Continue with Google"
+  },
+  "divider": "Or execute via credentials",
+  "form": {
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "Jane Doe",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "At least 8 characters",
+    "submit": "Provision Account",
+    "submitting": "Creating account..."
+  },
+  "states": {
+    "preparing": "Preparing sign up...",
+    "redirecting": "Redirecting..."
+  },
+  "messages": {
+    "validationError": "Enter a valid full name and a password with at least 8 characters.",
+    "successEmail": "Check your inbox to confirm your email, then sign in to continue.",
+    "successAccount": "Account created"
+  },
+  "terms": {
+    "prefix": "Already have access?",
+    "link": "Authenticate session"
+  },
+  "side": {
+    "scopedAccess": "Scoped Access",
+    "scopedAccessDesc": "Workspace API keys support capability and scope controls.",
+    "hostedApi": "Hosted API",
+    "hostedApiDesc": "Integrate through the public /v1 API or the official SDK."
+  }
+}

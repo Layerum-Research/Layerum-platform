@@ -1,0 +1,11 @@
+{
+  "brand": "Layerum",
+  "engineeringIntelligence": "엔지니어링 인텔리전스.",
+  "copyright": "© {year} Layerum. 엔지니어링 인텔리전스.",
+  "metadata": {
+    "title": "Layerum",
+    "description": "Layerum은 프로덕션 팀을 위한 제어 우선 RAG 플랫폼입니다. API와 SDK 워크플로로 워크스페이스 단위 접근, 문서 수집, 검색, 거버넌스를 일관되게 관리할 수 있습니다.",
+    "authTitle": "계정 접근",
+    "authDescription": "Layerum 워크스페이스, 문서, API 접근을 관리하려면 로그인하거나 계정을 만드세요."
+  }
+}

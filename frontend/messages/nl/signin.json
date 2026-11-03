@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "signin": "Inloggen",
+    "signup": "Registreren"
+  },
+  "hero": {
+    "title": "Welkom terug",
+    "description": "Ga verder met je architectuurwerk."
+  },
+  "oauth": {
+    "github": "Doorgaan met GitHub",
+    "google": "Doorgaan met Google"
+  },
+  "divider": "Of ga verder met inloggegevens",
+  "form": {
+    "emailLabel": "E-mailadres",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Wachtwoord",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "Wachtwoord vergeten?",
+    "forgotSend": "Resetlink versturen",
+    "forgotSending": "Versturen...",
+    "forgotBack": "Terug naar inloggen",
+    "forgotSuccess": "Controleer je inbox voor een wachtwoord-resetlink.",
+    "submit": "Inloggen",
+    "submitting": "Bezig met authenticeren..."
+  },
+  "states": {
+    "preparing": "Inloggen voorbereiden...",
+    "redirecting": "Doorsturen..."
+  },
+  "side": {
+    "scopedAccess": "Toegang met scope",
+    "scopedAccessDesc": "Workspace API-sleutels ondersteunen controle over mogelijkheden en scopes.",
+    "hostedApi": "Gehoste API",
+    "hostedApiDesc": "Integreer via de publieke /v1 API of de officiële SDK."
+  }
+}

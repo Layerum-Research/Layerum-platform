@@ -1,0 +1,284 @@
+{
+  "breadcrumb": {
+    "docs": "Docs",
+    "current": "Reference"
+  },
+  "hero": {
+    "title": "Complete Documentation",
+    "description": "API keys, SDK, and Public API reference for Layerum integrations."
+  },
+  "sidebar": {
+    "title": "On this page",
+    "ariaLabel": "Documentation sections",
+    "links": [
+      { "href": "#api-keys", "label": "API Keys" },
+      { "href": "#api-keys-limits", "label": "Capabilities, Scopes, Limits" },
+      { "href": "#sdk", "label": "SDK" },
+      { "href": "#sdk-client", "label": "SDK Client Options" },
+      { "href": "#sdk-errors", "label": "SDK Error Handling" },
+      { "href": "#sdk-entities", "label": "SDK Entities" },
+      { "href": "#sdk-entity-types", "label": "SDK Entity Types" },
+      { "href": "#sdk-documents", "label": "SDK Documents" },
+      { "href": "#sdk-ingestion", "label": "SDK Ingestion" },
+      { "href": "#sdk-query", "label": "SDK Query" },
+      { "href": "#sdk-models", "label": "SDK Models" },
+      { "href": "#sdk-providers", "label": "SDK Providers" },
+      { "href": "#api-public", "label": "Public API (/v1)" },
+      { "href": "#api-error", "label": "API Error Format" },
+      { "href": "#api-public-entities", "label": "Public Entities" },
+      { "href": "#api-public-entity-types", "label": "Public Entity Types" },
+      { "href": "#api-public-documents", "label": "Public Documents" },
+      { "href": "#api-public-models", "label": "Public Models" },
+      { "href": "#api-public-providers", "label": "Public Providers" },
+      { "href": "#api-public-query", "label": "Public Query" },
+      { "href": "#capacity", "label": "Capacity and Upload Model" }
+    ]
+  },
+  "endpointCard": {
+    "queryTitle": "Query",
+    "bodyTitle": "Body",
+    "notesTitle": "Notes"
+  },
+  "endpointGroups": {
+    "publicEntities": [
+      { "method": "GET", "path": "/v1/entities" },
+      { "method": "GET", "path": "/v1/entities/tree" },
+      {
+        "method": "POST",
+        "path": "/v1/entities",
+        "body": [
+          "entity_type_id (uuid, required)",
+          "name (string, required, max 200)",
+          "description (string, optional)",
+          "parent_id (uuid, optional)",
+          "metadata (object, optional)"
+        ],
+        "notes": [
+          "Scoped API keys cannot create root entities unless scope allows it."
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entities/:id" }
+    ],
+    "publicEntityTypes": [
+      { "method": "GET", "path": "/v1/entity-types" },
+      { "method": "GET", "path": "/v1/entity-types/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entity-types",
+        "body": [
+          "name (string, required, max 50)",
+          "label (string, required, max 100)"
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entity-types/:id" }
+    ],
+    "publicDocuments": [
+      { "method": "GET", "path": "/v1/entities/:entityId/documents" },
+      { "method": "GET", "path": "/v1/documents" },
+      { "method": "GET", "path": "/v1/entities/:entityId/documents/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents",
+        "body": [
+          "source_type (\"file\" | \"url\" | \"text\" | \"api\", required)",
+          "display_name (string, required)",
+          "source_url (string, optional)",
+          "raw_text (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload",
+        "body": [
+          "multipart/form-data",
+          "file (required)",
+          "visibility (optional)",
+          "model_config_id (optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload/init",
+        "body": [
+          "file_name (string, required)",
+          "file_size_bytes (int >= 1, required)",
+          "content_type (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/upload/complete",
+        "body": [
+          "upload_id (uuid, required)",
+          "display_name (string, optional)",
+          "visibility (\"self\" | \"self_and_descendants\", optional)",
+          "model_config_id (uuid, optional)",
+          "checksum (string, optional)"
+        ],
+        "notes": [
+          "Uploaded object size must exactly match file_size_bytes declared at upload/init."
+        ]
+      },
+      { "method": "DELETE", "path": "/v1/entities/:entityId/documents/:id" },
+      {
+        "method": "POST",
+        "path": "/v1/entities/:entityId/documents/:id/retry"
+      },
+      { "method": "GET", "path": "/v1/entities/:entityId/documents/:id/error" }
+    ],
+    "publicModels": [
+      { "method": "GET", "path": "/v1/models" },
+      { "method": "GET", "path": "/v1/models/:id" },
+      { "method": "POST", "path": "/v1/models" },
+      { "method": "PATCH", "path": "/v1/models/:id" },
+      { "method": "DELETE", "path": "/v1/models/:id" },
+      {
+        "method": "GET",
+        "path": "/v1/model-definitions",
+        "query": ["type (string, optional)"]
+      }
+    ],
+    "publicProviders": [
+      { "method": "GET", "path": "/v1/providers" },
+      { "method": "GET", "path": "/v1/providers/:id" },
+      { "method": "POST", "path": "/v1/providers" },
+      { "method": "POST", "path": "/v1/providers/:id/test" },
+      { "method": "DELETE", "path": "/v1/providers/:id" }
+    ],
+    "publicQuery": [
+      {
+        "method": "POST",
+        "path": "/v1/query",
+        "body": [
+          "entityId (uuid, required)",
+          "modelConfigId (uuid, required)",
+          "query (string, required)",
+          "topK (number 1..20, optional)",
+          "includeParentScopes (boolean, optional)"
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/v1/query/debug",
+        "body": [
+          "entityId (uuid, required)",
+          "modelConfigId (uuid, required)",
+          "query (string, required)",
+          "topK (number 1..20, optional)",
+          "includeParentScopes (boolean, optional)"
+        ],
+        "notes": ["Returns additional debug metadata when backend provides it."]
+      }
+    ]
+  },
+  "cli": {
+    "nav": {
+      "overview": "MCP 与 CLI",
+      "auth": "CLI 身份验证",
+      "workspace": "CLI 工作区选择",
+      "commands": "CLI 命令",
+      "mcp": "MCP 设置",
+      "tools": "MCP 工具",
+      "env": "CLI 环境变量",
+      "troubleshooting": "CLI 故障排查"
+    },
+    "overview": {
+      "title": "MCP 与 CLI",
+      "paragraph": "<c>@layerum-team/cli</c> 是命令行工具，同时也是 MCP 服务器。它通过 OAuth 使用你自己的 Layerum 账户登录并以你的身份操作，因此适用于个人和 AI 助手。服务器集成请使用 SDK 或使用工作区 API 密钥（<c>lyr_wk_*</c>）的公共 API。",
+      "requirement": "需要 Node 20 或更高版本。"
+    },
+    "auth": {
+      "title": "CLI 身份验证",
+      "browser": "浏览器流程：<c>layerum login</c> 会打开浏览器，授权后 CLI 通过本地重定向接收令牌。最多等待 5 分钟。",
+      "code": "代码流程：<c>layerum login --code</c> 会打印一个 URL。在任意设备上打开、授权，然后粘贴页面显示的代码。代码有效期为 5 分钟。适用于 SSH、容器或本地重定向无法工作的环境。需要交互式终端。",
+      "autoWorkspace": "如果你只属于一个工作区，登录后会自动选中。否则请使用 <c>layerum use</c> 选择。",
+      "credentials": "凭据存储在 <c>~/.config/layerum/credentials.json</c>（若设置了 <c>$XDG_CONFIG_HOME</c> 则为 <c>$XDG_CONFIG_HOME/layerum</c>，Windows 上为 <c>%APPDATA%\\layerum</c>）。在 macOS 和 Linux 上，目录权限为 700，文件权限为 600。所选工作区保存在同一目录的 <c>config.json</c> 中。",
+      "lifetime": "令牌有效期为 90 天。到期后请重新运行 <c>layerum login</c>。",
+      "logout": "<c>layerum logout</c> 会在服务器上撤销令牌，并删除本地凭据和已保存的工作区。如果服务器端撤销失败，CLI 会提示，令牌可能在过期前仍然有效。你也可以随时在“账户”的“已连接的应用”中撤销访问权限。",
+      "permissions": "令牌以你的身份操作，因此它在工作区中能做什么取决于你在该工作区的角色。",
+      "canTitle": "令牌可以：",
+      "can1": "查看你的资料和所属工作区。",
+      "can2": "读取实体、文档和模型，包括模型配置。",
+      "can3": "添加文档并创建实体。",
+      "can4": "删除你有权管理的文档。",
+      "can5": "运行查询。",
+      "cannotTitle": "令牌不能：",
+      "cannot1": "管理你的账户，例如密码和双重验证设置。",
+      "cannot2": "管理工作区设置：成员、角色、API 密钥和提供商。",
+      "cannot3": "删除工作区。"
+    },
+    "workspace": {
+      "title": "CLI 工作区选择",
+      "intro": "命令使用的工作区按以下顺序确定：",
+      "flag": "<c>{wsFlag}</c> 选项。",
+      "env": "环境变量 <c>LAYERUM_WORKSPACE</c>。",
+      "saved": "通过 <c>{useCmd}</c> 保存的工作区（ID、名称或 slug）。",
+      "mcp": "MCP 工具遵循相同的顺序，以可选参数 <c>workspace_id</c> 代替该选项。"
+    },
+    "commands": {
+      "title": "CLI 命令",
+      "global": "全局选项：<c>--json</c> 输出原始 JSON；<c>{wsFlag}</c> 为单次命令覆盖默认工作区。",
+      "colCommand": "命令",
+      "colDescription": "说明",
+      "login": "登录。<c>--force</c> 即使已登录也会重新登录。<c>--code</c> 使用粘贴代码流程。",
+      "logout": "撤销令牌并删除本地凭据。",
+      "whoami": "显示当前登录的用户。",
+      "workspaces": "列出工作区，当前工作区以 <c>*</c> 标记。",
+      "use": "按 ID、名称或 slug 设置默认工作区。",
+      "entities": "以树形列出实体，使用 <c>--flat</c> 则以平铺表格显示。",
+      "models": "列出模型配置。",
+      "documentsList": "列出工作区或某个实体中的文档。",
+      "documentsAdd": "添加文档。<c>--text</c>、<c>--url</c>、<c>--file</c> 必须且只能指定一个。<c>--name</c> 设置显示名称。<c>--wait</c> 等待摄取完成（最长 5 分钟）。",
+      "documentsGet": "显示文档及其摄取状态。",
+      "documentsDelete": "永久删除文档。必须使用 <c>--yes</c> 确认。",
+      "query": "针对某个实体提问。<c>--model</c> 选择模型配置（默认使用工作区默认配置）。<c>--top-k</c> 设置检索的片段数量（1 到 20）。输出答案和编号来源。",
+      "mcp": "通过 stdio 启动 MCP 服务器。"
+    },
+    "mcp": {
+      "title": "MCP 设置",
+      "intro": "<c>layerum mcp</c> 通过 stdio 启动 MCP 服务器。在 Claude Code 中注册：",
+      "others": "对于其他 MCP 客户端，将以下内容添加到客户端配置中。适用于接受 <c>mcpServers</c> 格式的客户端，例如 Cursor 和 Claude Desktop：",
+      "login": "当助手未登录时，它会调用 <c>login</c> 工具。使用默认方法 <c>browser</c> 时，工具会打开登录页面，并在你完成后返回。使用方法 <c>code</c> 时，工具返回一个 URL；在该页面授权后，把代码交给助手，助手需在 10 分钟内调用 <c>complete_login</c>。当浏览器流程失败，或服务器与浏览器不在同一台机器上时，请使用 <c>code</c>。"
+    },
+    "tools": {
+      "title": "MCP 工具",
+      "colTool": "工具",
+      "colInputs": "输入",
+      "colDescription": "说明",
+      "note": "处理工作区数据的工具接受可选的 <c>workspace_id</c>。没有问号的输入为必填。MCP 没有删除工具：文档只能通过 CLI 删除。",
+      "login": "登录。<c>method</c> 为 <c>browser</c>（默认）或 <c>code</c>，后者通过 <c>complete_login</c> 完成。<c>force</c> 会重新登录。",
+      "completeLogin": "使用浏览器中显示的代码完成以 <c>code</c> 方法发起的登录。",
+      "whoami": "显示当前登录的用户和所选工作区的 ID。",
+      "listWorkspaces": "列出你的工作区，包含 ID、名称、slug 和角色。",
+      "useWorkspace": "按 ID、完整名称或 slug 选择默认工作区。",
+      "listEntities": "以平铺列表列出所有实体，包含 ID、名称、类型、parent_id 和层级深度。",
+      "listModels": "列出模型配置。未提供 <c>model_config_id</c> 时，<c>query</c> 使用默认配置。",
+      "listDocuments": "列出文档，包含 ID、名称、类型、状态和实体。状态为 pending、processing、completed 或 failed；只有 completed 的文档可以被查询。",
+      "getDocument": "获取单个文档的详情和摄取状态，摄取失败时包含错误信息。",
+      "addText": "向实体添加文本文档。摄取在后台运行。",
+      "addUrl": "通过 URL（http 或 https）向实体添加网页。<c>name</c> 默认为该 URL。摄取在后台运行。",
+      "query": "针对某个实体提问，包含其父级的范围。返回答案和编号引用。<c>top_k</c> 取值为 1 到 20。"
+    },
+    "env": {
+      "title": "CLI 环境变量",
+      "colVariable": "变量",
+      "colDescription": "说明",
+      "appUrl": "Layerum Web 应用 URL。登录时必填。",
+      "apiUrl": "Layerum API URL。登录时必填。",
+      "workspace": "要使用的工作区。覆盖通过 <c>layerum use</c> 选择的工作区；<c>--workspace</c> 选项会覆盖此变量。",
+      "xdg": "macOS 和 Linux 上凭据与配置的基础目录。默认值：<c>~/.config</c>。",
+      "appdata": "Windows 上凭据与配置的基础目录。"
+    },
+    "troubleshooting": {
+      "title": "CLI 故障排查",
+      "notLoggedIn": "未登录或请求返回 401：运行 <c>layerum login</c>。令牌可能已过期或被撤销。在 MCP 客户端中，助手应调用 <c>login</c> 工具。",
+      "noBrowser": "浏览器无法打开，或你在远程机器上：运行 <c>layerum login --code</c>，并在任意设备上打开打印出的 URL。",
+      "noWorkspace": "未选择工作区：先运行 <c>layerum workspaces</c>，再运行 <c>{useCmd}</c>。也可以设置 <c>LAYERUM_WORKSPACE</c> 或传入 <c>--workspace</c>。",
+      "malformed": "提示凭据文件格式错误：运行 <c>layerum login --force</c>。"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "brand": "Layerum",
+  "engineeringIntelligence": "工程智能。",
+  "copyright": "© {year} Layerum。工程智能。",
+  "metadata": {
+    "title": "Layerum",
+    "description": "Layerum 是一个面向生产团队、以控制为先的 RAG 平台。通过 API 和 SDK 工作流，统一管理按工作区划分的访问、文档导入、检索和治理。",
+    "authTitle": "账户访问",
+    "authDescription": "登录或创建账户，以管理 Layerum 的工作区、文档和 API 访问。"
+  }
+}

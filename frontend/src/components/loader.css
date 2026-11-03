@@ -1,0 +1,34 @@
+.skeleton-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  width: 100%;
+}
+
+.skeleton-row {
+  background: rgba(var(--app-border-rgb), 0.14);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.skeleton-row::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--app-accent-rgb), 0.1),
+    transparent
+  );
+  animation: skeleton-shimmer 1.15s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

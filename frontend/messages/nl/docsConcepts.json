@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "Docs",
+    "current": "Concepten"
+  },
+  "hero": {
+    "title": "Platformconcepten",
+    "description": "Layerum is gebouwd voor productie-RAG: gestructureerde workspaces, veilige API-toegang, betrouwbare ingestie en voorspelbare capaciteitscontrole van upload tot query."
+  },
+  "sidebar": {
+    "title": "Op deze pagina",
+    "ariaLabel": "Conceptsecties",
+    "links": [
+      { "href": "#what-layerum-is", "label": "Wat is Layerum" },
+      { "href": "#workspace-model", "label": "Workspacemodel" },
+      { "href": "#data-model", "label": "Datamodel" },
+      { "href": "#ingestion-lifecycle", "label": "Ingestiecyclus" },
+      { "href": "#capacity-control", "label": "Capaciteitscontrole" },
+      { "href": "#security-governance", "label": "Beveiliging en governance" },
+      { "href": "#retrieval-quality", "label": "Retrievalkwaliteit" },
+      { "href": "#developer-experience", "label": "Developer experience" },
+      { "href": "#operations", "label": "Operaties en betrouwbaarheid" },
+      { "href": "#use-cases", "label": "Typische use-cases" },
+      { "href": "#start", "label": "Aan de slag" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "Wat is Layerum",
+      "paragraph": "Layerum is een gehost RAG-platform voor teams die kennis willen ingesteren, toegang per workspace willen beheren en betrouwbare antwoorden willen leveren via API of SDK.",
+      "bullets": [
+        "API-endpoint: {apiBaseUrl}.",
+        "Publiek contract: /v1/*.",
+        "Authenticatie: workspace API-sleutels (lyr_wk_...)."
+      ]
+    },
+    "workspaceModel": {
+      "title": "Workspacemodel",
+      "paragraph": "Elk team werkt in geïsoleerde workspaces. Rechten, modellen, entiteiten, documenten en API-sleutels worden op workspaceniveau beheerd.",
+      "bullets": [
+        "Meerdere workspaces per account afhankelijk van het plan.",
+        "Teamleden, rollen en operationele grenzen blijven binnen de workspace.",
+        "API-sleutels kunnen worden beperkt tot entiteiten en modelconfiguraties."
+      ]
+    },
+    "dataModel": {
+      "title": "Datamodel",
+      "paragraph": "Kennis wordt georganiseerd om zowel governance als retrievalprecisie te ondersteunen.",
+      "bullets": [
+        "Entity Types definiëren categorieën op hoog niveau.",
+        "Entiteiten vormen de hiërarchie en retrievalscope.",
+        "Documenten zijn gekoppeld aan entiteiten en worden geïndexeerd in chunks/vectoren."
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "Ingestiecyclus",
+      "paragraph": "Documenten doorlopen een voorspelbare flow: upload, parsing, chunking, embedding, indexering en statustracking.",
+      "bullets": [
+        "Kleine bestanden: directe multipart upload via API.",
+        "Grote bestanden: presigned flow (upload/init → S3 POST → upload/complete).",
+        "Statussen: pending, processing, completed, failed.",
+        "SDK-helper ingestion.waitUntilReady regelt polling tot voltooiing."
+      ]
+    },
+    "capacityControl": {
+      "title": "Capaciteitscontrole",
+      "paragraph": "Capaciteit wordt op accountniveau bepaald per plan en dynamisch verdeeld over workspaces. Handhaving gebeurt server-side voor UI, API en SDK.",
+      "bullets": [
+        "Getelde usage: entiteiten, documentgrootte, chunks, gekoppelde S3-bestanden, lopende uploads.",
+        "Niet geteld: logs, API key metadata, modelmetadata.",
+        "Presigned uploads zijn beveiligd met validatie en opschoning van verouderde sessies."
+      ]
+    },
+    "securityGovernance": {
+      "title": "Beveiliging en governance",
+      "paragraph": "Toegang is expliciet, gescopeerd en op elk moment intrekbaar.",
+      "bullets": [
+        "API-sleutels worden aangemaakt en beheerd in de Layerum UI.",
+        "Capability-model: query:read, data:ingest, config:manage.",
+        "Per sleutel: entity scope, model scope, RPM-limiet, daglimiet tokens, expiratie.",
+        "Rotatie en intrekken zijn direct mogelijk zonder architectuurwijzigingen."
+      ]
+    },
+    "retrievalQuality": {
+      "title": "Retrievalkwaliteit",
+      "paragraph": "Querygedrag is ontworpen voor controleerbare en uitlegbare antwoorden, niet alleen tekstgeneratie.",
+      "bullets": [
+        "Entity-gebonden retrieval houdt context relevant.",
+        "Top-K en parent-scope opties sturen de breedte.",
+        "Citaten maken herkomst van antwoorden traceerbaar.",
+        "Debug endpoint ondersteunt diepgaande analyse."
+      ]
+    },
+    "developerExperience": {
+      "title": "Developer experience",
+      "paragraph": "Integratie via typed SDK of plain HTTP met hetzelfde publieke contract.",
+      "bullets": [
+        "SDK package: @layerum-team/rag-sdk.",
+        "Publieke API: {apiBaseUrl}/v1.",
+        "Zelfde auth- en limietmodel voor SDK en API."
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: 'Vat de belangrijkste risico’s en acties samen'\n});"
+    },
+    "operations": {
+      "title": "Operaties en betrouwbaarheid",
+      "paragraph": "Het platform richt zich op stabiel gedrag in productie en observeerbare fouten.",
+      "bullets": [
+        "Ingestiefouten worden opgeslagen en zijn beschikbaar via API/SDK.",
+        "Retry endpoints ondersteunen deterministisch herstel.",
+        "Vectorindexering is gekoppeld aan de documentlevenscyclus.",
+        "Capaciteitschecks voorkomen ongecontroleerde groei."
+      ]
+    },
+    "useCases": {
+      "title": "Typische use-cases",
+      "bullets": [
+        "Interne klantenservice-assistenten.",
+        "Privé documentzoekfunctie tussen teams.",
+        "Compliance- en beleidszoekopdrachten met citaten.",
+        "Team-copilots gekoppeld aan specifieke kennisdomeinen."
+      ]
+    },
+    "start": {
+      "title": "Aan de slag",
+      "bullets": [
+        "1. Maak een workspace en configureer modellen.",
+        "2. Maak een API-sleutel en stel rechten in.",
+        "3. Maak een entiteitenstructuur en upload documenten.",
+        "4. Wacht op ingestie en voer queries uit via SDK of API."
+      ],
+      "paragraph": "Ga verder met volledige endpoint- en methode-details in Reference.",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}

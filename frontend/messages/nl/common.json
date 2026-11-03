@@ -1,0 +1,11 @@
+{
+  "brand": "Layerum",
+  "engineeringIntelligence": "Engineering-intelligentie.",
+  "copyright": "© {year} Layerum. Engineering-intelligentie.",
+  "metadata": {
+    "title": "Layerum",
+    "description": "Layerum is een control-first RAG-platform voor productieteams. Houd workspace-gebonden toegang, documentinname, retrieval en governance op één lijn via API- en SDK-workflows.",
+    "authTitle": "Accounttoegang",
+    "authDescription": "Meld je aan of maak een account aan om Layerum-workspaces, documenten en API-toegang te beheren."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "docs": "Docs",
+    "license": "License"
+  },
+  "actions": {
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "aria": {
+    "primaryNav": "Primary navigation",
+    "mobileNav": "Mobile navigation"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "menu": {
+    "label": "Menu",
+    "open": "Open menu",
+    "close": "Close menu"
+  }
+}

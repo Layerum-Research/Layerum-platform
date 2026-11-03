@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "文档",
+    "current": "概念"
+  },
+  "hero": {
+    "title": "平台概念",
+    "description": "Layerum 专为生产级 RAG 构建：结构化工作空间、安全的 API 访问、可靠的数据摄取，以及从上传到查询的可预测容量控制。"
+  },
+  "sidebar": {
+    "title": "本页内容",
+    "ariaLabel": "概念章节",
+    "links": [
+      { "href": "#what-layerum-is", "label": "什么是 Layerum" },
+      { "href": "#workspace-model", "label": "工作空间模型" },
+      { "href": "#data-model", "label": "数据模型" },
+      { "href": "#ingestion-lifecycle", "label": "摄取生命周期" },
+      { "href": "#capacity-control", "label": "容量控制" },
+      { "href": "#security-governance", "label": "安全与治理" },
+      { "href": "#retrieval-quality", "label": "检索质量" },
+      { "href": "#developer-experience", "label": "开发者体验" },
+      { "href": "#operations", "label": "运维与可靠性" },
+      { "href": "#use-cases", "label": "典型使用场景" },
+      { "href": "#start", "label": "如何开始" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "什么是 Layerum",
+      "paragraph": "Layerum 是一个托管的 RAG 平台，适用于需要摄取知识、按工作空间控制访问，并通过 API 或 SDK 提供可靠回答的团队。",
+      "bullets": [
+        "API 端点：{apiBaseUrl}。",
+        "公共接口：/v1/*。",
+        "认证方式：工作空间 API 密钥（lyr_wk_...）。"
+      ]
+    },
+    "workspaceModel": {
+      "title": "工作空间模型",
+      "paragraph": "每个团队在隔离的工作空间中工作。权限、模型、实体、文档和 API 密钥均在工作空间级别进行管理。",
+      "bullets": [
+        "根据套餐，一个账户可拥有多个工作空间。",
+        "团队成员、角色和操作边界均限制在工作空间内。",
+        "API 密钥可按实体和模型配置进行范围限制。"
+      ]
+    },
+    "dataModel": {
+      "title": "数据模型",
+      "paragraph": "知识结构化设计，以同时支持治理和检索精度。",
+      "bullets": [
+        "实体类型定义高级分类。",
+        "实体构成层级结构和检索范围。",
+        "文档附属于实体，并被索引为分块/向量。"
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "摄取生命周期",
+      "paragraph": "文档遵循可预测流程：上传、解析、分块、嵌入、索引以及状态跟踪。",
+      "bullets": [
+        "小文件：通过 API 直接 multipart 上传。",
+        "大文件：预签名流程（upload/init → S3 POST → upload/complete）。",
+        "状态：pending、processing、completed、failed。",
+        "SDK 的 ingestion.waitUntilReady 用于轮询直到完成。"
+      ]
+    },
+    "capacityControl": {
+      "title": "容量控制",
+      "paragraph": "容量基于套餐在账户级别定义，并在工作空间之间动态分配。UI、API 和 SDK 均由服务端统一执行限制。",
+      "bullets": [
+        "计费项：实体、文档大小、分块数量、关联 S3 文件、待处理上传。",
+        "不计费：日志、API 密钥元数据、模型元数据。",
+        "预签名上传具备校验和过期会话清理机制。"
+      ]
+    },
+    "securityGovernance": {
+      "title": "安全与治理",
+      "paragraph": "访问是显式的、可限定范围的，并可随时撤销。",
+      "bullets": [
+        "API 密钥仅在 Layerum 平台 UI 中创建和管理。",
+        "权限模型：query:read、data:ingest、config:manage。",
+        "控制项：实体/模型范围、每分钟请求限制、每日 token 限额、过期时间。",
+        "密钥轮换与撤销即时生效，无需更改系统架构。"
+      ]
+    },
+    "retrievalQuality": {
+      "title": "检索质量",
+      "paragraph": "查询行为旨在提供可控且可解释的答案，而不仅仅是文本生成。",
+      "bullets": [
+        "基于实体范围的检索保证上下文相关性。",
+        "Top-K 和父级范围选项可调节检索宽度。",
+        "引用帮助追溯答案来源。",
+        "调试查询端点支持深入分析。"
+      ]
+    },
+    "developerExperience": {
+      "title": "开发者体验",
+      "paragraph": "可通过类型化 SDK 或 HTTP 接口进行集成，并保持相同的公共契约。",
+      "bullets": [
+        "SDK：@layerum-team/rag-sdk。",
+        "公共 API 基地址：{apiBaseUrl}/v1。",
+        "SDK 与 API 使用相同的认证与限额模型。"
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: '总结关键风险和行动'\n});"
+    },
+    "operations": {
+      "title": "运维与可靠性",
+      "paragraph": "平台专注于稳定的生产行为和可观测性。",
+      "bullets": [
+        "摄取错误会被记录，并可通过 API/SDK 查询。",
+        "重试接口支持确定性恢复。",
+        "向量索引与文档生命周期绑定。",
+        "容量控制防止存储无限增长。"
+      ]
+    },
+    "useCases": {
+      "title": "典型使用场景",
+      "bullets": [
+        "内部客户支持知识助手。",
+        "跨部门私有文档搜索。",
+        "带引用的合规与政策检索。",
+        "连接特定知识域的团队 Copilot。"
+      ]
+    },
+    "start": {
+      "title": "如何开始",
+      "bullets": [
+        "1. 创建工作空间并配置模型连接。",
+        "2. 在工作空间 UI 中创建 API 密钥并设置权限。",
+        "3. 创建实体结构并上传文档。",
+        "4. 等待摄取完成后，通过 SDK 或 API 执行查询。"
+      ],
+      "paragraph": "更多端点和方法详情请参阅 Reference。",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}

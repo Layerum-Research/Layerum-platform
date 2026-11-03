@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "signin": "Accedi",
+    "signup": "Registrati"
+  },
+  "hero": {
+    "title": "Bentornato",
+    "description": "Continua il tuo percorso nell’architettura."
+  },
+  "oauth": {
+    "github": "Continua con GitHub",
+    "google": "Continua con Google"
+  },
+  "divider": "Oppure continua con credenziali",
+  "form": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "arch@layerum.ai",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "Hai dimenticato?",
+    "forgotSend": "Invia link di reimpostazione",
+    "forgotSending": "Invio in corso...",
+    "forgotBack": "Torna all'accesso",
+    "forgotSuccess": "Controlla la tua casella di posta per il link di reimpostazione.",
+    "submit": "Accedi",
+    "submitting": "Autenticazione..."
+  },
+  "states": {
+    "preparing": "Preparazione accesso...",
+    "redirecting": "Reindirizzamento..."
+  },
+  "side": {
+    "scopedAccess": "Accesso con ambito",
+    "scopedAccessDesc": "Le chiavi API del workspace supportano controlli di capacità e ambito.",
+    "hostedApi": "API ospitata",
+    "hostedApiDesc": "Integra tramite API pubblica /v1 o SDK ufficiale."
+  }
+}

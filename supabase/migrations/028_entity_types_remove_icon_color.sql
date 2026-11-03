@@ -1,0 +1,3 @@
+ALTER TABLE entity_types
+  DROP COLUMN IF EXISTS icon,
+  DROP COLUMN IF EXISTS color;

@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "Docs",
+    "current": "Concetti"
+  },
+  "hero": {
+    "title": "Concetti della piattaforma",
+    "description": "Layerum è progettato per il RAG in produzione: workspace strutturati, accesso sicuro tramite API, ingestione affidabile e controllo prevedibile della capacità, dall’upload alla query."
+  },
+  "sidebar": {
+    "title": "In questa pagina",
+    "ariaLabel": "Sezioni dei concetti",
+    "links": [
+      { "href": "#what-layerum-is", "label": "Cos'è Layerum" },
+      { "href": "#workspace-model", "label": "Modello di workspace" },
+      { "href": "#data-model", "label": "Modello dei dati" },
+      { "href": "#ingestion-lifecycle", "label": "Ciclo di ingestione" },
+      { "href": "#capacity-control", "label": "Controllo della capacità" },
+      { "href": "#security-governance", "label": "Sicurezza e governance" },
+      { "href": "#retrieval-quality", "label": "Qualità del retrieval" },
+      { "href": "#developer-experience", "label": "Esperienza sviluppatore" },
+      { "href": "#operations", "label": "Operazioni e affidabilità" },
+      { "href": "#use-cases", "label": "Casi d’uso tipici" },
+      { "href": "#start", "label": "Come iniziare" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "Cos'è Layerum",
+      "paragraph": "Layerum è una piattaforma RAG hosted per team che devono ingerire conoscenza, controllare l’accesso per workspace e fornire risposte affidabili tramite API o SDK.",
+      "bullets": [
+        "Endpoint API: {apiBaseUrl}.",
+        "Contratto pubblico: /v1/*.",
+        "Autenticazione: API key del workspace (lyr_wk_...)."
+      ]
+    },
+    "workspaceModel": {
+      "title": "Modello di workspace",
+      "paragraph": "Ogni team lavora in workspace isolati. Permessi, modelli, entità, documenti e API key sono gestiti a livello di workspace.",
+      "bullets": [
+        "Più workspace per account in base al piano.",
+        "Membri, ruoli e confini operativi restano nel workspace.",
+        "Le API key possono essere limitate per entità e configurazioni dei modelli."
+      ]
+    },
+    "dataModel": {
+      "title": "Modello dei dati",
+      "paragraph": "La conoscenza è organizzata per supportare governance e precisione del retrieval.",
+      "bullets": [
+        "I tipi di entità definiscono categorie di alto livello.",
+        "Le entità formano la gerarchia e l’ambito di retrieval.",
+        "I documenti sono collegati alle entità e indicizzati in chunk/vettori."
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "Ciclo di ingestione",
+      "paragraph": "I documenti seguono un flusso prevedibile: upload, parsing, chunking, embedding, indicizzazione e tracciamento dello stato.",
+      "bullets": [
+        "File piccoli: upload diretto multipart via API.",
+        "File grandi: flusso presigned (upload/init → S3 POST → upload/complete).",
+        "Stati: pending, processing, completed, failed.",
+        "L’SDK ingestion.waitUntilReady gestisce il polling fino al completamento."
+      ]
+    },
+    "capacityControl": {
+      "title": "Controllo della capacità",
+      "paragraph": "La capacità è definita a livello di account in base al piano e distribuita dinamicamente tra i workspace. L’applicazione è lato server per UI, API e SDK.",
+      "bullets": [
+        "Utilizzo conteggiato: entità, dimensione documenti, chunk, file S3 collegati, upload in attesa.",
+        "Non conteggiato: log, metadati API e modelli.",
+        "Upload presigned sicuri con validazione e pulizia delle sessioni obsolete."
+      ]
+    },
+    "securityGovernance": {
+      "title": "Sicurezza e governance",
+      "paragraph": "L’accesso è esplicito, limitato e revocabile in qualsiasi momento.",
+      "bullets": [
+        "Le API key sono create e gestite nell’interfaccia Layerum.",
+        "Modello di capacità: query:read, data:ingest, config:manage.",
+        "Controlli: scope entità/modelli, limiti RPM, token giornalieri, scadenza.",
+        "Rotazione e revoca immediate senza modificare l’architettura."
+      ]
+    },
+    "retrievalQuality": {
+      "title": "Qualità del retrieval",
+      "paragraph": "Il comportamento delle query è progettato per risposte controllabili e spiegabili.",
+      "bullets": [
+        "Retrieval limitato per entità.",
+        "Opzioni Top-K e parent-scope per la regolazione.",
+        "Citazioni per tracciare le risposte alle fonti.",
+        "Endpoint debug per analisi approfondite."
+      ]
+    },
+    "developerExperience": {
+      "title": "Esperienza sviluppatore",
+      "paragraph": "Integrazione possibile tramite SDK tipizzato o HTTP diretto mantenendo lo stesso contratto pubblico.",
+      "bullets": [
+        "SDK: @layerum-team/rag-sdk.",
+        "API pubblica: {apiBaseUrl}/v1.",
+        "Stesso modello di autenticazione e limiti."
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: 'Riassumi i principali rischi e azioni'\n});"
+    },
+    "operations": {
+      "title": "Operazioni e affidabilità",
+      "paragraph": "La piattaforma è progettata per un comportamento stabile in produzione e una buona osservabilità.",
+      "bullets": [
+        "Gli errori di ingestione sono persistiti e disponibili via API/SDK.",
+        "Endpoint di retry per recupero deterministico.",
+        "Indicizzazione vettoriale legata al ciclo di vita dei documenti.",
+        "Controlli di capacità per evitare crescita incontrollata."
+      ]
+    },
+    "useCases": {
+      "title": "Casi d’uso tipici",
+      "bullets": [
+        "Assistenti di supporto clienti interni.",
+        "Ricerca documentale privata.",
+        "Accesso a policy di compliance con citazioni.",
+        "Copilot di team collegati a domini di conoscenza specifici."
+      ]
+    },
+    "start": {
+      "title": "Come iniziare",
+      "bullets": [
+        "1. Crea un workspace e configura i modelli.",
+        "2. Crea una API key e definisci i permessi.",
+        "3. Struttura le entità e carica i documenti.",
+        "4. Attendi l’ingestione e poi esegui query via SDK o API."
+      ],
+      "paragraph": "Continua con i dettagli completi di endpoint e metodi nella sezione Reference.",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}

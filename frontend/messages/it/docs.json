@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "breadcrumbRoot": "Docs",
+    "breadcrumbActive": "Inizio",
+    "title": "Guida rapida",
+    "description": "Inizia con le API key, poi usa SDK o API."
+  },
+  "steps": {
+    "apiKeys": {
+      "label": "01 / AUTH",
+      "title": "API Keys",
+      "desc": "Crea e gestisci le chiavi API."
+    },
+    "sdk": {
+      "label": "02 / SDK",
+      "title": "SDK",
+      "desc": "Usa SDK per ingestion e query."
+    },
+    "api": {
+      "label": "03 / API",
+      "title": "API",
+      "desc": "Esplora endpoint /v1."
+    }
+  },
+  "sections": {
+    "install": {
+      "title": "Installazione",
+      "desc": "Installa SDK da npm."
+    },
+    "client": {
+      "title": "Inizializza client",
+      "desc": "Inizializza LayerumClient con la tua API key."
+    },
+    "mcpCli": {
+      "title": "MCP e CLI",
+      "desc": "Usa Layerum da un terminale o da un assistente IA. La CLI e il server MCP accedono con il tuo account Layerum tramite OAuth, quindi sono pensati per persone e assistenti IA. L'SDK usa chiavi API del workspace (lyr_wk_*) ed è pensato per le integrazioni server.",
+      "install": {
+        "title": "Installazione",
+        "desc": "Installa la CLI a livello globale. Richiede Node 20 o successivo."
+      },
+      "signIn": {
+        "title": "Accesso",
+        "desc": "Imposta gli URL del tuo server Layerum, poi accedi. layerum login apre il browser e ti fa accedere con OAuth. Su SSH o in un container usa layerum login --code: apri l'URL stampato su qualsiasi dispositivo, autorizza e incolla il codice."
+      },
+      "assistants": {
+        "title": "Collegare un assistente IA",
+        "desc": "Registra il server MCP nel tuo assistente. L'assistente accede con il suo strumento login la prima volta che ha bisogno di Layerum. Claude Code:",
+        "othersDesc": "Altri client MCP: aggiungi questo alla configurazione MCP del client. Funziona con i client che accettano il formato mcpServers, come Cursor e Claude Desktop."
+      },
+      "reference": "Apri il riferimento completo MCP e CLI"
+    }
+  },
+  "cards": {
+    "sandbox": {
+      "title": "Serve un sandbox?",
+      "desc": "Prova il playground interattivo.",
+      "link": "Apri Playground"
+    },
+    "concepts": {
+      "title": "Concetti",
+      "desc": "Comprendi l’architettura.",
+      "link": "Concetti chiave"
+    }
+  }
+}

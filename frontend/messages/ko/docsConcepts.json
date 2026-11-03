@@ -1,0 +1,135 @@
+{
+  "breadcrumb": {
+    "docs": "문서",
+    "current": "개념"
+  },
+  "hero": {
+    "title": "플랫폼 개념",
+    "description": "Layerum은 프로덕션 RAG를 위해 설계되었습니다: 구조화된 워크스페이스, 안전한 API 키 접근, 신뢰할 수 있는 수집(ingestion), 업로드부터 쿼리까지 예측 가능한 용량 관리."
+  },
+  "sidebar": {
+    "title": "이 페이지",
+    "ariaLabel": "개념 섹션",
+    "links": [
+      { "href": "#what-layerum-is", "label": "Layerum이란" },
+      { "href": "#workspace-model", "label": "워크스페이스 모델" },
+      { "href": "#data-model", "label": "데이터 모델" },
+      { "href": "#ingestion-lifecycle", "label": "수집 라이프사이클" },
+      { "href": "#capacity-control", "label": "용량 관리" },
+      { "href": "#security-governance", "label": "보안 및 거버넌스" },
+      { "href": "#retrieval-quality", "label": "검색 품질" },
+      { "href": "#developer-experience", "label": "개발자 경험" },
+      { "href": "#operations", "label": "운영 및 신뢰성" },
+      { "href": "#use-cases", "label": "대표 사용 사례" },
+      { "href": "#start", "label": "시작하기" }
+    ]
+  },
+  "sections": {
+    "whatLayerumIs": {
+      "title": "Layerum이란",
+      "paragraph": "Layerum은 지식을 수집하고, 워크스페이스 단위로 접근을 제어하며, API 또는 SDK를 통해 신뢰할 수 있는 답변을 제공해야 하는 팀을 위한 호스팅 RAG 플랫폼입니다.",
+      "bullets": [
+        "API 엔드포인트: {apiBaseUrl}.",
+        "공개 인터페이스: /v1/*.",
+        "인증: 워크스페이스 API 키 (lyr_wk_...)."
+      ]
+    },
+    "workspaceModel": {
+      "title": "워크스페이스 모델",
+      "paragraph": "각 팀은 서로 격리된 워크스페이스에서 작업합니다. 권한, 모델, 엔티티, 문서, API 키는 모두 워크스페이스 범위에서 관리됩니다.",
+      "bullets": [
+        "요금제에 따라 여러 워크스페이스 사용 가능.",
+        "팀원, 역할, 운영 경계는 워크스페이스 내부에 유지.",
+        "API 키는 엔티티 및 모델 설정 단위로 범위 지정 가능."
+      ]
+    },
+    "dataModel": {
+      "title": "데이터 모델",
+      "paragraph": "지식은 거버넌스와 검색 정확도를 모두 지원하도록 구성됩니다.",
+      "bullets": [
+        "엔티티 타입이 상위 카테고리를 정의.",
+        "엔티티가 계층 구조와 검색 범위를 형성.",
+        "문서는 엔티티에 연결되고 청크/벡터로 인덱싱됨."
+      ]
+    },
+    "ingestionLifecycle": {
+      "title": "수집 라이프사이클",
+      "paragraph": "문서는 업로드, 파싱, 청크 분할, 임베딩, 인덱싱, 상태 추적의 예측 가능한 흐름을 따릅니다.",
+      "bullets": [
+        "소형 파일: API를 통한 multipart 직접 업로드.",
+        "대형 파일: 프리사인드 흐름 (upload/init → S3 POST → upload/complete).",
+        "상태: pending, processing, completed, failed.",
+        "SDK의 ingestion.waitUntilReady로 완료까지 폴링 처리."
+      ]
+    },
+    "capacityControl": {
+      "title": "용량 관리",
+      "paragraph": "용량은 요금제 기준으로 계정 단위에서 관리되며 워크스페이스 간에 동적으로 분배됩니다. UI, API, SDK 전반에서 서버 측으로 강제됩니다.",
+      "bullets": [
+        "계산 대상: 엔티티 수, 문서 크기, 청크 수, 연결된 S3 파일, 대기 중 업로드.",
+        "미포함: 로그, API 키 및 모델 메타데이터.",
+        "프리사인드 업로드는 검증 및 만료 세션 정리 포함."
+      ]
+    },
+    "securityGovernance": {
+      "title": "보안 및 거버넌스",
+      "paragraph": "접근은 명시적이며 범위 지정되고 언제든지 취소할 수 있습니다.",
+      "bullets": [
+        "API 키는 Layerum UI에서 생성 및 관리.",
+        "권한 모델: query:read, data:ingest, config:manage.",
+        "제어: 엔티티/모델 범위, RPM 제한, 일일 토큰 제한, 만료.",
+        "키 회전 및 폐기는 즉시 적용되며 구조 변경 불필요."
+      ]
+    },
+    "retrievalQuality": {
+      "title": "검색 품질",
+      "paragraph": "쿼리 동작은 단순 생성이 아니라 제어 가능하고 설명 가능한 답변을 목표로 합니다.",
+      "bullets": [
+        "엔티티 범위 기반 검색.",
+        "Top-K 및 상위 범위 옵션으로 조정.",
+        "출처 추적을 위한 인용 제공.",
+        "디버그 엔드포인트로 상세 분석 가능."
+      ]
+    },
+    "developerExperience": {
+      "title": "개발자 경험",
+      "paragraph": "타입이 있는 SDK 또는 HTTP를 통해 동일한 공개 인터페이스로 통합할 수 있습니다.",
+      "bullets": [
+        "SDK: @layerum-team/rag-sdk.",
+        "API 기본 URL: {apiBaseUrl}/v1.",
+        "동일한 인증 및 제한 모델."
+      ],
+      "sdkFlowCode": "import { LayerumClient } from '@layerum-team/rag-sdk';\n\nconst client = new LayerumClient({\n  apiKey: process.env.LAYERUM_API_KEY!,\n  baseUrl: '{apiBaseUrl}'\n});\n\nconst source = await client.documents.uploadDirect({\n  entityId: '<entity_uuid>',\n  file,\n  fileName: 'knowledge.pdf',\n  contentType: 'application/pdf'\n});\n\nawait client.ingestion.waitUntilReady({\n  entityId: '<entity_uuid>',\n  sourceId: source.id\n});\n\nconst answer = await client.query.run({\n  entityId: '<entity_uuid>',\n  modelConfigId: '<model_config_uuid>',\n  query: '주요 위험과 조치를 요약하세요'\n});"
+    },
+    "operations": {
+      "title": "운영 및 신뢰성",
+      "paragraph": "플랫폼은 안정적인 프로덕션 동작과 관찰 가능성을 중시합니다.",
+      "bullets": [
+        "수집 오류는 저장되며 API/SDK에서 조회 가능.",
+        "재시도 엔드포인트로 결정론적 복구 지원.",
+        "벡터 인덱싱은 문서 라이프사이클과 연동.",
+        "용량 제어로 과도한 저장 증가 방지."
+      ]
+    },
+    "useCases": {
+      "title": "대표 사용 사례",
+      "bullets": [
+        "내부 고객 지원 지식 어시스턴트.",
+        "부서 간 프라이빗 문서 검색.",
+        "인용 기반 컴플라이언스 검색.",
+        "특정 지식 도메인에 연결된 팀 코파일럿."
+      ]
+    },
+    "start": {
+      "title": "시작하기",
+      "bullets": [
+        "1. 워크스페이스 생성 및 모델 설정.",
+        "2. API 키 생성 및 권한 설정.",
+        "3. 엔티티 구조 생성 및 문서 업로드.",
+        "4. 수집 완료 후 SDK 또는 API로 쿼리 실행."
+      ],
+      "paragraph": "자세한 엔드포인트와 메서드는 Reference를 확인하세요.",
+      "referenceLinkLabel": "Reference"
+    }
+  }
+}
